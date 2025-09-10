@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -13,11 +14,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          "style-loader", // Injects CSS into the DOM
-          "css-loader",   // Turns css into js
-          "sass-loader",  // Compiles Sass to CSS
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
@@ -28,7 +25,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    publicPath: "/bookit/", 
+    publicPath: "/bookit/",
   },
   devServer: {
     static: "./dist",
@@ -36,4 +33,9 @@ module.exports = {
     port: 3000,
     open: true,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+  ],
 };
