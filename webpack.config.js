@@ -11,6 +11,14 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader", // Injects CSS into the DOM
+          "css-loader",   // Turns css into js
+          "sass-loader",  // Compiles Sass to CSS
+        ],
+      },
     ],
   },
   resolve: {
