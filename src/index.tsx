@@ -1,8 +1,26 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
+import "./styles/index.scss";
+import Welcome from "./pages/Welcome";
+import Login from "./pages/Login";
+import Booking from "./pages/Booking";
+import Sign from "./pages/SignIn";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
-root.render(<App />);
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Welcome  />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign" element={<Sign />} />
+        <Route path="/booking" element={<Booking />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);
