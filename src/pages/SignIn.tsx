@@ -7,8 +7,7 @@ const Sign = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({name:"", familyName:"", mobileNumber:"", password:""});
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,13 +16,13 @@ const Sign = () => {
       const res = await fetch("http://localhost:5000/sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        navigate("/booking");
+        navigate("/login");
       } else {
         setError(data.error);
       }
@@ -49,16 +48,27 @@ const Sign = () => {
       >
         <input
           type="text"
-          placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="name"
+          value={formData.name}
+          onChange={(e) => setFormData({...formData, name: e.target.value})}
         />
-
+        <input
+          type="text"
+          placeholder="family name"
+          value={formData.familyName}
+          onChange={(e) => setFormData({...formData, familyName: e.target.value})}
+        />
+        <input
+          type="text"
+          placeholder="mobile number"
+          value={formData.mobileNumber}
+          onChange={(e) => setFormData({...formData, mobileNumber: e.target.value})}
+        />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={(e) => setFormData({...formData, password: e.target.value})}
         />
         <button type="submit">Sign In</button>
       </motion.form>

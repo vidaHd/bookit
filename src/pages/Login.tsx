@@ -2,34 +2,52 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/Notification";
+import { useDispatch } from "react-redux";
+import { setUserName } from "../slices/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    password: "",
+    familyName: "",
+  });
   const [error, setError] = useState("");
 
-  const handleSignIn = () => {
+  const handleSignIn = (data: {
+    token: string;
+    user: { familyName: string; mobileNumber: string; name: string };
+  }) => {
+    const informationUSer = {
+      name: data.user.name,
+      familyName: data.user.familyName,
+      mobileNumber: data.user.mobileNumber,
+      token: data.token,
+    };
+
+    localStorage.setItem("token", informationUSer.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    dispatch(setUserName(informationUSer));
+
     navigate("/booking");
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !password) {
-      return;
-    }
-
     try {
       const res = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
       if (res.ok) {
-        handleSignIn();
+        handleSignIn(data);
       } else {
         setError(data.error);
       }
@@ -55,14 +73,24 @@ const Login = () => {
         <input
           type="text"
           placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="family Name"
+          value={formData.familyName}
+          onChange={(e) =>
+            setFormData({ ...formData, familyName: e.target.value })
+          }
         />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
         />
         <button type="submit" onClick={handleLogin}>
           Login
