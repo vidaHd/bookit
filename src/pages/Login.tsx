@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/Notification";
 import { useDispatch } from "react-redux";
-import { setUserName } from "../slices/userSlice";
+import { setUser } from "../slices/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const Login = () => {
   });
   const [error, setError] = useState("");
 
-  const handleSignIn = (data: {
+  const setUserInformateion = (data: {
     token: string;
     user: { familyName: string; mobileNumber: string; name: string };
   }) => {
@@ -27,10 +27,7 @@ const Login = () => {
       token: data.token,
     };
 
-    localStorage.setItem("token", informationUSer.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    dispatch(setUserName(informationUSer));
+    dispatch(setUser(informationUSer));
 
     navigate("/booking");
   };
@@ -47,7 +44,7 @@ const Login = () => {
 
       const data = await res.json();
       if (res.ok) {
-        handleSignIn(data);
+        setUserInformateion(data);
       } else {
         setError(data.error);
       }

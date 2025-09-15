@@ -15,6 +15,10 @@ export default function Header() {
     dispatch(clearUser());
   };
 
+  const goToProfilePage = ()=>{
+    window.location.href = "/profile";
+  }
+
   return (
   <motion.header
   className="header"
@@ -30,7 +34,7 @@ export default function Header() {
         <button className="btn sign" onClick={() => (window.location.href = "/sign")}>Sign In</button>
       </>
     ) : (
-      <div className="user-info">
+      <div className="user-info" onClick={goToProfilePage}>
         <span>{name.name}</span>
         <span>{name.familyName}</span>
         <button className="btn logout" onClick={logOut}>Log out</button>

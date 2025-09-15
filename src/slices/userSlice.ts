@@ -8,8 +8,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  name: null,
-  familyName: null,
+  name: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')!).name : null,
+  familyName:  localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')!).familyName : null,
   mobileNumber: null,
   token: null,
 };
@@ -18,11 +18,15 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserName: (state, action: PayloadAction<UserState>) => {
+    setUser: (state, action: PayloadAction<UserState>) => {
       state.name = action.payload.name;
       state.familyName = action.payload.familyName;
       state.mobileNumber = action.payload.mobileNumber;
       state.token = action.payload.token;
+
+      action.payload.token &&
+        localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     clearUser: (state) => {
       state.name = null;
@@ -33,5 +37,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserName, clearUser } = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
