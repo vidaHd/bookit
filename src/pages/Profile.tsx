@@ -22,7 +22,10 @@ const ProfileForm = () => {
         age: profileQuery.data.profile.age || "",
         avatar: profileQuery.data.profile.avatar || null,
         gender: profileQuery.data.profile.gender || "",
+        
       });
+      setPreview(profileQuery.data.profile.avatar || null);
+
     }
   }, [profileQuery.data]);
   
@@ -37,7 +40,6 @@ const ProfileForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     mutation.mutate(formData);
   };
 

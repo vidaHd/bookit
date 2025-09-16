@@ -6,6 +6,8 @@ import "../styles/header.scss";
 
 export default function Header() {
   const name = useSelector((state: RootState) => state.user);
+  console.log(name);
+
   const dispatch = useDispatch();
 
   const logOut = () => {
@@ -15,34 +17,45 @@ export default function Header() {
     dispatch(clearUser());
   };
 
-  const goToProfilePage = ()=>{
+  const goToProfilePage = () => {
     window.location.href = "/profile";
-  }
+  };
 
   return (
-  <motion.header
-  className="header"
-  initial={{ opacity: 0, y: -20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
->
-  <h2 className="logo">BookIt</h2>
-  <div className="nav">
-    {!name.token ? (
-      <>
-        <button className="btn login" onClick={() => (window.location.href = "/login")}>Login</button>
-        <button className="btn sign" onClick={() => (window.location.href = "/sign")}>Sign In</button>
-      </>
-    ) : (
-      <div className="user-info" onClick={goToProfilePage}>
-        <span>{name.name}</span>
-        <span>{name.familyName}</span>
-        <button className="btn logout" onClick={logOut}>Log out</button>
+    <motion.header
+      className="header"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h2 className="logo">BookIt</h2>
+      <div className="nav">
+        {!name.token ? (
+          <>
+            <button
+              className="btn login"
+              onClick={() => (window.location.href = "/login")}
+            >
+              Login
+            </button>
+            <button
+              className="btn sign"
+              onClick={() => (window.location.href = "/sign")}
+            >
+              Sign In
+            </button>
+          </>
+        ) : (
+          <div className="user-info" onClick={goToProfilePage}>
+            <span>{name.name}</span>
+            <span>{name.familyName}</span>
+            <img src={`http://localhost:5000/${name.profile?.avatar}`} />
+            <button className="btn logout" onClick={logOut}>
+              Log out
+            </button>
+          </div>
+        )}
       </div>
-    )}
-  </div>
-</motion.header>
-
-
+    </motion.header>
   );
 }

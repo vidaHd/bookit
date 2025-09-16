@@ -7,32 +7,41 @@ const useProfileData = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
+      const formData = new FormData();
+      if (data.avatar) formData.append("avatar", data.avatar);
+
+      formData.append(
+        "profile",
+        JSON.stringify({
+          description: data.description,
+          age: data.age,
+          gender: data.gender,
+        })
+      );
       const res = await fetch(API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
         },
-        body: JSON.stringify({ profile: data }),
+        body: formData,
       });
 
-      if (!res.ok) throw new Error("Failed to update profile");
       return res.json();
     },
     onSuccess: () => {
-queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 
   const profileQuery = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/profile", {
+      const res = await fetch(API_URL, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
         },
       });
+      if (!res.ok) throw new Error("Failed to fetch profile");
       return res.json();
     },
   });

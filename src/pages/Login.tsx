@@ -18,13 +18,24 @@ const Login = () => {
 
   const setUserInformateion = (data: {
     token: string;
-    user: { familyName: string; mobileNumber: string; name: string };
+    user: {
+      familyName: string;
+      mobileNumber: string;
+      name: string;
+      profile: {
+        age: number;
+        avatar: string;
+        description: string;
+        gender: string;
+      };
+    };
   }) => {
     const informationUSer = {
       name: data.user.name,
       familyName: data.user.familyName,
       mobileNumber: data.user.mobileNumber,
       token: data.token,
+      profile: data.user.profile,
     };
 
     dispatch(setUser(informationUSer));

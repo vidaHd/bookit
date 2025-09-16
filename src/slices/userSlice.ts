@@ -5,11 +5,21 @@ interface UserState {
   familyName?: string | null;
   mobileNumber?: string | null;
   token: string | null;
+  profile?: {
+    age: number;
+    avatar: string;
+    description: string;
+    gender: string;
+  };
 }
 
 const initialState: UserState = {
-  name: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')!).name : null,
-  familyName:  localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')!).familyName : null,
+  name: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!).name
+    : null,
+  familyName: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!).familyName
+    : null,
   mobileNumber: null,
   token: null,
 };
@@ -23,6 +33,7 @@ const userSlice = createSlice({
       state.familyName = action.payload.familyName;
       state.mobileNumber = action.payload.mobileNumber;
       state.token = action.payload.token;
+      state.profile = action.payload.profile;
 
       action.payload.token &&
         localStorage.setItem("token", action.payload.token);
