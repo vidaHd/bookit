@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/profile.scss";
 import useProfileData from "../helper/profile";
+import ResetPasswordUI from "../components/ResetPassword";
 
 const ProfileForm = () => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [formData, setFormData] = useState({
     description: "",
@@ -22,13 +25,10 @@ const ProfileForm = () => {
         age: profileQuery.data.profile.age || "",
         avatar: profileQuery.data.profile.avatar || null,
         gender: profileQuery.data.profile.gender || "",
-        
       });
       setPreview(profileQuery.data.profile.avatar || null);
-
     }
   }, [profileQuery.data]);
-  
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -36,6 +36,10 @@ const ProfileForm = () => {
       setFormData({ ...formData, avatar: file });
       setPreview(URL.createObjectURL(file));
     }
+  };
+
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,55 +56,59 @@ const ProfileForm = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <h2 className="form-title">Edit Your Profile</h2>
+        <h2 className="form-title">ویرایش پروفایل</h2>
 
-        <div className="form-group">
-          <label>Avatar</label>
-          <input type="file" accept="image/*" onChange={handleAvatarChange} />
-          {preview && (
-            <img
-              src={preview}
-              alt="Avatar Preview"
-              className="avatar-preview"
-            />
-          )}
-        </div>
-
-        <div className="form-group">
-          <label>Age</label>
+        <div className="form-group avatar-group">
+          <label>عکس پروفایل</label>
+          <div className="avatar-upload" onClick={openFileDialog}>
+            {preview ? (
+              <img src={preview} alt="پیش‌نمایش آواتار" className="avatar-img" />
+            ) : (
+              <div className="avatar-placeholder">+</div>
+            )}
+          </div>
           <input
-            type="number"
-            value={formData.age}
-            onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-            placeholder="Enter your age"
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleAvatarChange}
           />
         </div>
 
         <div className="form-group">
-          <label>Gender</label>
+          <label>سن</label>
+          <input
+            type="number"
+            value={formData.age}
+            onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+            placeholder="سن خود را وارد کنید"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>جنسیت</label>
           <select
             value={formData.gender}
             onChange={(e) =>
               setFormData({ ...formData, gender: e.target.value })
             }
           >
-            <option value="">Select your gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="">انتخاب کنید</option>
+            <option value="male">مرد</option>
+            <option value="female">زن</option>
+            <option value="other">سایر</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>About You</label>
-          <textarea
-            style={{ padding: 10 }}
-            rows={3}
+          <label>درباره من</label>
+          <input
             value={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
-            placeholder="about yourself.."
+            placeholder="چند خط درباره خودتان بنویسید..."
           />
         </div>
 
@@ -110,8 +118,25 @@ const ProfileForm = () => {
           type="submit"
           className="submit-btn"
         >
-          Save Profile
+          ذخیره پروفایل
         </motion.button>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type="button"
+          className="submit-btn-password"
+          onClick={() => setShowResetModal(true)}
+        >
+          تغییر رمز عبور
+        </motion.button>
+
+        {showResetModal && (
+          <ResetPasswordUI
+            isOpen={showResetModal}
+            onClose={() => setShowResetModal(false)}
+          />
+        )}
       </motion.form>
     </div>
   );
