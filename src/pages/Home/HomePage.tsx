@@ -2,14 +2,14 @@ import { motion } from "framer-motion";
 import { ButtonUI } from "../../ui-kit";
 import { ButtonType } from "../../ui-kit/button/button.type";
 import "./Home.scss";
-import heroImage from "../../assets/images/hero-image.jpg";
+import heroImage from "../../assets/images/home.jpg";
 
 const Welcome = () => {
   return (
     <div className="welcome-page">
       <motion.main
         className="hero-section"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        style={{ backgroundImage: 'linear-gradient(-130deg,#6cc -1%,#43505f 25%)' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}

@@ -2,14 +2,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1rem;
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
+  padding: 1rem 0rem;
+  background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
   .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
+    color: #fff;
+    padding-left: 2rem;
   }
 
   .nav {
@@ -25,9 +30,18 @@
       transition: all 0.2s;
     }
 
-    .login { background-color: #007bff; color: #fff; }
-    .sign { background-color: #28a745; color: #fff; }
-    .logout { background-color: #dc3545; color: #fff; }
+    .login {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .sign {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .logout {
+      background-color: #dc3545;
+      color: #fff;
+    }
 
     .btn:hover {
       opacity: 0.9;

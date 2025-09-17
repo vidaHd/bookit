@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { clearUser } from "../slices/userSlice";
-import "../styles/header.scss";
+import "./Header.scss";
+import { RootState } from "../../store/store";
+import { clearUser } from "../../slices/userSlice";
+import { ButtonUI } from "../../ui-kit";
+import { ButtonType } from "../../ui-kit/button/button.type";
 
  const Header=() =>{
   const name = useSelector((state: RootState) => state.user);
@@ -31,18 +33,20 @@ import "../styles/header.scss";
       <div className="nav">
         {!name.token ? (
           <>
-            <button
-              className="btn login"
-              onClick={() => (window.location.href = "/login")}
-            >
-              Login
-            </button>
-            <button
-              className="btn sign"
-              onClick={() => (window.location.href = "/sign")}
-            >
-              Sign In
-            </button>
+             <ButtonUI
+            type={ButtonType.PRIMARY}
+            onClick={() => (window.location.href = "/login")}
+          >
+            Login
+          </ButtonUI>
+
+          <ButtonUI
+            type={ButtonType.SECONDARY}
+            onClick={() => (window.location.href = "/login")}
+          >
+            register
+          </ButtonUI>
+
           </>
         ) : (
           <div className="user-info" onClick={goToProfilePage}>
