@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import "../styles/profile.scss";
-import useProfileData from "../helper/profile";
-import ResetPasswordUI from "../components/ResetPassword";
+import useProfileData from "../../utils/profile";
+import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
+import './Profile.scss'
 
 const ProfileForm = () => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -57,6 +57,7 @@ const ProfileForm = () => {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <h2 className="form-title">ویرایش پروفایل</h2>
+
 
         <div className="form-group avatar-group">
           <label>عکس پروفایل</label>
@@ -132,7 +133,7 @@ const ProfileForm = () => {
         </motion.button>
 
         {showResetModal && (
-          <ResetPasswordUI
+          <ResetPasswordModal
             isOpen={showResetModal}
             onClose={() => setShowResetModal(false)}
           />

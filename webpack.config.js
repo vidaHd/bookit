@@ -16,6 +16,10 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset/resource", 
+      },
     ],
   },
   resolve: {
@@ -32,8 +36,7 @@ module.exports = {
     hot: true,
     port: 3000,
     open: true,
-    historyApiFallback: true, 
-
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -4,9 +4,8 @@ import { RootState } from "../store/store";
 import { clearUser } from "../slices/userSlice";
 import "../styles/header.scss";
 
-export default function Header() {
+ const Header=() =>{
   const name = useSelector((state: RootState) => state.user);
-  console.log(name);
 
   const dispatch = useDispatch();
 
@@ -59,3 +58,5 @@ export default function Header() {
     </motion.header>
   );
 }
+
+export default Header;

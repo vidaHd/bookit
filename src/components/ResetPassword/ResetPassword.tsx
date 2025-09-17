@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import "../styles/profile.scss"
+import './ResetPassword.scss';
 
 type Props = {
   isOpen: boolean;

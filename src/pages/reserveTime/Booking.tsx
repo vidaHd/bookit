@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Header from "../components/Header";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const times = ["09:00", "11:00", "13:00", "15:00", "17:00"];
@@ -17,7 +16,6 @@ const Booking = () => {
 
   return (
     <>
-      <Header />
       <div className="booking-page">
         <h1>Booking Schedule</h1>
 
@@ -54,9 +52,7 @@ const Booking = () => {
           </motion.div>
         )}
 
-        <footer className="footer">
-          <p>&copy; 2025 BookIt. All rights reserved.</p>
-        </footer>
+     
       </div>
     </>
   );

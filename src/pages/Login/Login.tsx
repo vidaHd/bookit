@@ -1,9 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Toast from "../components/Notification";
 import { useDispatch } from "react-redux";
-import { setUser } from "../slices/userSlice";
+import { setUser } from "../../slices/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -106,7 +105,7 @@ const Login = () => {
       </motion.form>
 
       <AnimatePresence>
-        <Toast message={error} onClose={() => setError("")} />
+        {/* <Toast message={error} onClose={() => setError("")} /> */}
       </AnimatePresence>
     </motion.div>
   );

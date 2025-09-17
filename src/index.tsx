@@ -4,13 +4,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import "./styles/index.scss";
-import Welcome from "./pages/Welcome";
-import Login from "./pages/Login";
-import Booking from "./pages/Booking";
-import Sign from "./pages/SignIn";
+import Booking from "./pages/reserveTime/Booking";
 import { store } from "./store/store";
-import ProfileForm from "./pages/Profile";
+import ProfileForm from "./pages/Profile/Profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MainLayout } from "./layouts";
+import Welcome from "./pages/Home";
+import Login from "./pages/Login/Login";
+import Register from "./pages/register/Register";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -22,11 +23,13 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign" element={<Sign />} />
-            <Route path="/booking" element={<Booking />} />
-            <Route path="/profile" element={<ProfileForm />} />
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/sign" element={<Register />} />
+              <Route path="/booking" element={<Booking />} />
+              <Route path="/profile" element={<ProfileForm />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Toast from "../components/Notification";
 
-const Sign = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -74,10 +73,9 @@ const Sign = () => {
       </motion.form>
 
       <AnimatePresence>
-        <Toast message={error} onClose={() => setError("")} />
       </AnimatePresence>
     </motion.div>
   );
 };
 
-export default Sign;
+export default Register;

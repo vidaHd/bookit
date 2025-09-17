@@ -1,5 +1,3 @@
-import React from "react";
-import "../styles/dayCard.scss";
 
 interface Props {
   day: string;
