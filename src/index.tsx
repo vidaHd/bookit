@@ -12,6 +12,7 @@ import { MainLayout } from "./layouts";
 import Welcome from "./pages/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
+import { AppProvider } from "./context/LanguageContext";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -21,17 +22,19 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Welcome />} />
+        <AppProvider>
+          <BrowserRouter>
+            <Routes>
               <Route path="/login" element={<Login />} />
-              <Route path="/sign" element={<Register />} />
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/profile" element={<ProfileForm />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              <Route path="/register" element={<Register />} />
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/profile" element={<ProfileForm />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AppProvider>
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>

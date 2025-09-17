@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 
 import "./button.scss";
 
-const ButtonUI = ({ onClick, children, type }: Props) => {
+const ButtonUI = ({ onClick, children, variant, type }: Props) => {
   return (
     <motion.button
-      className={`btn btn-${type}`}
+      className={`btn btn-${variant}`}
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      type={type}
     >
       {children}
     </motion.button>

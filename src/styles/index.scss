@@ -1,11 +1,7 @@
-@use './variables';
-@use './mixins';
-@use './button';
-@use './login';
-@use './booking';
+@use "./variables";
+@use "./mixins";
 
-body{
-
-    padding: 0;
-    margin: 0;
+body {
+  padding: 0;
+  margin: 0;
 }

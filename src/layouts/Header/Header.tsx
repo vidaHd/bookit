@@ -4,10 +4,13 @@ import "./Header.scss";
 import { RootState } from "../../store/store";
 import { clearUser } from "../../slices/userSlice";
 import { ButtonUI } from "../../ui-kit";
-import { ButtonType } from "../../ui-kit/button/button.type";
+import { VariantType } from "../../ui-kit/button/button.type";
+import { SvgLanguage, ThemeModeSvg } from "../../constant";
+import { useAppContext } from "../../context/LanguageContext";
 
- const Header=() =>{
+const Header = () => {
   const name = useSelector((state: RootState) => state.user);
+  const { language, setLanguage, theme, toggleTheme } = useAppContext();
 
   const dispatch = useDispatch();
 
@@ -29,24 +32,36 @@ import { ButtonType } from "../../ui-kit/button/button.type";
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="logo">BookIt</h2>
+      <h2 className="logo" onClick={() => (window.location.href = "/")}>
+        BookIt
+      </h2>
       <div className="nav">
         {!name.token ? (
           <>
-             <ButtonUI
-            type={ButtonType.PRIMARY}
-            onClick={() => (window.location.href = "/login")}
-          >
-            Login
-          </ButtonUI>
+            <ButtonUI
+              variant={VariantType.ICON}
+              onClick={() => setLanguage(language === "en" ? "fa" : "en")}
+            >
+              <SvgLanguage />
+            </ButtonUI>
 
-          <ButtonUI
-            type={ButtonType.SECONDARY}
-            onClick={() => (window.location.href = "/login")}
-          >
-            register
-          </ButtonUI>
+            <ButtonUI variant={VariantType.ICON} onClick={toggleTheme}>
+              <ThemeModeSvg />
+            </ButtonUI>
 
+            <ButtonUI
+              variant={VariantType.PRIMARY}
+              onClick={() => (window.location.href = "/login")}
+            >
+              Login
+            </ButtonUI>
+
+            <ButtonUI
+              variant={VariantType.SECONDARY}
+              onClick={() => (window.location.href = "/register")}
+            >
+              register
+            </ButtonUI>
           </>
         ) : (
           <div className="user-info" onClick={goToProfilePage}>
@@ -61,6 +76,6 @@ import { ButtonType } from "../../ui-kit/button/button.type";
       </div>
     </motion.header>
   );
-}
+};
 
 export default Header;
