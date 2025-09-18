@@ -2,8 +2,13 @@ import { motion } from "framer-motion";
 import { ButtonUI } from "../../ui-kit";
 import "./Home.scss";
 import heroImage from "../../assets/images/home.jpg";
+import { useTranslation } from "react-i18next";
 
 const Welcome = () => {
+    const { t, i18n } = useTranslation('header');
+
+console.log(t);
+
   return (
     <div className="welcome-page">
       <motion.main
@@ -15,7 +20,7 @@ const Welcome = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <h1>Welcome to BookIt!</h1>
+      <h2>{t("welcome")}</h2>
         <div className="buttons">
           Online Schedule System Bookitit Online Booking System Bookitit is the
           online reservation system that allows your customers to book through

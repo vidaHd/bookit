@@ -55,7 +55,10 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="back" onClick={() => (window.location.href = "/")}>
+      <ButtonUI variant={VariantType.ICON} type="button" onClick={() => (window.location.href = "/")} >
+        ←
+      </ButtonUI>
+        <h2 className="back" >
           Welcome Back
         </h2>
         <p className="subtitle">Login to your professional account</p>

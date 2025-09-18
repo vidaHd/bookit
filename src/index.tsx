@@ -13,6 +13,7 @@ import Welcome from "./pages/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import { AppProvider } from "./context/LanguageContext";
+import "./i18n";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

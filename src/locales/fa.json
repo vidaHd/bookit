@@ -1,0 +1,16 @@
+{
+  "header": {
+    "welcome": "به بوکیت خوش آمدید",
+    "login": "ورود",
+    "signup": "ثبت نام",
+    "logout": "خروج"
+  },
+  "profile": {
+    "title": "ویرایش پروفایل",
+    "age": "سن",
+    "gender": "جنسیت",
+    "description": "درباره شما",
+    "save": "ذخیره پروفایل",
+    "resetPassword": "تغییر رمز عبور"
+  }
+}

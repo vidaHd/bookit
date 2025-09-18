@@ -10,7 +10,7 @@ import { useAppContext } from "../../context/LanguageContext";
 
 const Header = () => {
   const name = useSelector((state: RootState) => state.user);
-  const { language, setLanguage, theme, toggleTheme } = useAppContext();
+  const { language, changeLanguage, theme, toggleTheme } = useAppContext();
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <motion.header
-      className="header"
+      className={`header ${theme}`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -40,7 +40,7 @@ const Header = () => {
           <>
             <ButtonUI
               variant={VariantType.ICON}
-              onClick={() => setLanguage(language === "en" ? "fa" : "en")}
+              onClick={() => changeLanguage(language === "en" ? "fa" : "en")}
             >
               <SvgLanguage />
             </ButtonUI>
