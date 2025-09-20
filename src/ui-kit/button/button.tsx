@@ -1,9 +1,9 @@
-import type { Props } from "./button.type";
+import type { ButtonProps } from "./button.type";
 import { motion } from "framer-motion";
 
 import "./button.scss";
 
-const ButtonUI = ({ onClick, children, variant, type }: Props) => {
+const ButtonUI = ({ onClick, children, variant, type }: ButtonProps) => {
   return (
     <motion.button
       className={`btn btn-${variant}`}

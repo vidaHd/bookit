@@ -6,10 +6,12 @@ import { setUser } from "../../slices/userSlice";
 import "./Login.scss";
 import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
+import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showResetModal, setShowResetModal] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -55,12 +57,14 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-      <ButtonUI variant={VariantType.ICON} type={buttonType.BUTTON} onClick={() => (window.location.href = "/")} >
-        ←
-      </ButtonUI>
-        <h2 className="back" >
-          Welcome Back
-        </h2>
+        <ButtonUI
+          variant={VariantType.ICON}
+          type={buttonType.BUTTON}
+          onClick={() => (window.location.href = "/")}
+        >
+          ←
+        </ButtonUI>
+        <h2 className="back">Welcome Back</h2>
         <p className="subtitle">Login to your professional account</p>
 
         <motion.form
@@ -96,7 +100,9 @@ const Login = () => {
           <ButtonUI variant={VariantType.SECONDARY}>Login</ButtonUI>
         </motion.form>
 
-        <p className="forgot-password">Forgot your password?</p>
+        <p className="forgot-password" onClick={() => setShowResetModal(true)}>
+          Forgot your password?
+        </p>
         <ButtonUI
           variant={VariantType.SECONDARY}
           onClick={() => (window.location.href = "/register")}
@@ -104,6 +110,12 @@ const Login = () => {
         >
           register
         </ButtonUI>
+        {showResetModal && (
+          <ResetPasswordModal
+            isOpen={showResetModal}
+            onClose={() => setShowResetModal(false)}
+          />
+        )}
       </motion.div>
     </div>
   );

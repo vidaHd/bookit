@@ -7,12 +7,19 @@
     "logout": "Log Out"
   },
   "profile": {
-    "title": "Edit Your Profile",
+    "avatarAlt": "Profile",
+    "changePassword": "Change Password",
+    "editProfile": "Edit Profile",
     "age": "Age",
+    "agePlaceholder": "Enter your age",
     "gender": "Gender",
-    "description": "About You",
-    "save": "Save Profile",
-    "resetPassword": "Reset Password"
+    "selectOption": "Select",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "aboutMe": "About Me",
+    "aboutPlaceholder": "Write a few lines about yourself...",
+    "saveProfile": "Save Profile"
   },
   "reset_password": {
     "change_password": "Change Password",

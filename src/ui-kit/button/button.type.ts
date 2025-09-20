@@ -9,7 +9,7 @@ export enum buttonType {
   SUBMIT = "submit",
   RESET = "reset",
 }
-export interface Props {
+export interface ButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
   variant: VariantType;

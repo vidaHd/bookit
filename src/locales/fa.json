@@ -1,7 +1,7 @@
 {
-  "welcome":{
-  "welcome": "خوش آمدید به Bookit!",
-  "view_times": "مشاهده زمان‌ها"
+  "welcome": {
+    "welcome": "خوش آمدید به Bookit!",
+    "view_times": "مشاهده زمان‌ها"
   },
   "header": {
     "welcome": "به بوکیت خوش آمدید",
@@ -10,12 +10,19 @@
     "logout": "خروج"
   },
   "profile": {
-    "title": "ویرایش پروفایل",
+    "avatarAlt": "پروفایل",
+    "changePassword": "تغییر رمز عبور",
+    "editProfile": "ویرایش پروفایل",
     "age": "سن",
+    "agePlaceholder": "سن خود را وارد کنید",
     "gender": "جنسیت",
-    "description": "درباره شما",
-    "save": "ذخیره پروفایل",
-    "resetPassword": "تغییر رمز عبور"
+    "selectOption": "انتخاب کنید",
+    "male": "مرد",
+    "female": "زن",
+    "other": "سایر",
+    "aboutMe": "درباره من",
+    "aboutPlaceholder": "چند خط درباره خودتان بنویسید...",
+    "saveProfile": "ذخیره پروفایل"
   },
   "reset_password": {
     "change_password": "تغییر رمز عبور",
