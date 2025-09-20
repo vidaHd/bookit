@@ -55,7 +55,7 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-      <ButtonUI variant={VariantType.ICON} type="button" onClick={() => (window.location.href = "/")} >
+      <ButtonUI variant={VariantType.ICON} type={buttonType.BUTTON} onClick={() => (window.location.href = "/")} >
         ←
       </ButtonUI>
         <h2 className="back" >

@@ -1,4 +1,5 @@
 {
+  "welcome": { "welcome": "Welcome to Bookit!", "view_times": "View Times" },
   "header": {
     "welcome": "Welcome to BookIt",
     "login": "Login",

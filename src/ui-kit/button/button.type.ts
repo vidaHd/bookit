@@ -13,5 +13,5 @@ export interface Props {
   onClick?: () => void;
   children: React.ReactNode;
   variant: VariantType;
-  type?: "button" | "submit" | "reset";
+  type?: buttonType;
 }

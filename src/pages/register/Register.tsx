@@ -54,7 +54,7 @@ const Register = () => {
       >
         <ButtonUI
           variant={VariantType.ICON}
-          type="button"
+          type={buttonType.BUTTON}
           onClick={() => (window.location.href = "/")}
         >
           ←

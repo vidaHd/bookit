@@ -1,4 +1,8 @@
 {
+  "welcome":{
+  "welcome": "خوش آمدید به Bookit!",
+  "view_times": "مشاهده زمان‌ها"
+  },
   "header": {
     "welcome": "به بوکیت خوش آمدید",
     "login": "ورود",
