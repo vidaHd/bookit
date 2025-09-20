@@ -5,7 +5,7 @@
   border: none;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: var(--font-size-p);
   transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 
   &:focus {
@@ -14,7 +14,7 @@
   }
 
   &-primary {
-    background-color: var(--primary-dark);
+    background-color: var(--bg-btn);
     color: var(--text-light);
 
     &:hover {
