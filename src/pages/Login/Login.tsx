@@ -93,7 +93,7 @@ const Login = () => {
             }
           />
           {error && <span className="error">{error}</span>}
-          <ButtonUI variant={VariantType.PRIMARY}>Login</ButtonUI>
+          <ButtonUI variant={VariantType.SECONDARY}>Login</ButtonUI>
         </motion.form>
 
         <p className="forgot-password">Forgot your password?</p>

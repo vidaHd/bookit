@@ -1,0 +1,39 @@
+:root {
+  --primary-light: #6cc;
+  --primary: #47aeb1;
+  --primary-dark: #43505f;
+  --text-light: #f0f4f8;
+  --text-dark: #2c3e50;
+  --background-dark: #34495e;
+  --background-light: #90f4fb;
+  --card-dark: #465a70;
+  --card-light: #f7f9fb;
+}
+
+.theme-light {
+  --bg-color: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary-light)
+  );
+  --text-color: var(--text-dark);
+  --card-bg: var(--card-light);
+  --btn-bg: var(--primary);
+  --btn-color: var(--text-light);
+  --link-color: var(--primary);
+  --input-bg: #f0f0f0;
+}
+
+.theme-dark {
+  --bg-color: linear-gradient(
+    135deg,
+    var(--background-dark),
+    var(--primary-dark)
+  );
+  --text-color: var(--text-light);
+  --card-bg: var(--card-dark);
+  --btn-bg: var(--primary-light);
+  --btn-color: var(--text-dark);
+  --link-color: var(--primary-light);
+  --input-bg: #606b7a;
+}

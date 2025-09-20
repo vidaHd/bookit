@@ -13,9 +13,6 @@ console.log(t);
     <div className="welcome-page">
       <motion.main
         className="hero-section"
-        style={{
-          backgroundImage: "linear-gradient(-130deg,#6cc -1%,#43505f 25%)",
-        }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}

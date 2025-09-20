@@ -1,13 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import './ResetPassword.scss';
+import "./ResetPassword.scss";
+import { useAppContext } from "../../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
-const  ResetPasswordModal = ({ isOpen, onClose }: Props) =>{
+const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
   const [step, setStep] = useState<"password" | "sms">("password");
+  const { theme, language } = useAppContext();
+  const { t } = useTranslation('');
 
   const handleNext = () => {
     setStep("sms");
@@ -17,10 +21,11 @@ const  ResetPasswordModal = ({ isOpen, onClose }: Props) =>{
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="modal-overlay"
+          className={`modal-overlay ${theme}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          style={{ direction: language === "fa" ? "rtl" : "ltr" }}
         >
           <motion.div
             className="modal"
@@ -35,22 +40,22 @@ const  ResetPasswordModal = ({ isOpen, onClose }: Props) =>{
 
             {step === "password" && (
               <div className="modal-content">
-                <h2>تغییر رمز عبور</h2>
-                <input type="password" placeholder="رمز عبور فعلی" />
-                <input type="password" placeholder="رمز عبور جدید" />
-                <input type="password" placeholder="تکرار رمز عبور جدید" />
+                <h2>{t("reset_password.change_password")}</h2>
+                <input type="password" placeholder={t("reset_password.current_password")} />
+                <input type="password" placeholder={t("reset_password.new_password")} />
+                <input type="password" placeholder={t("reset_password.repeat_new_password")} />
                 <button className="btn" onClick={handleNext}>
-                  ادامه
+                  {t("reset_password.continue")}
                 </button>
               </div>
             )}
 
             {step === "sms" && (
               <div className="modal-content">
-                <h2>تایید پیامکی</h2>
-                <p>کدی که برای شما پیامک شده را وارد کنید</p>
-                <input type="text" placeholder="کد تایید" />
-                <button className="btn">تایید</button>
+                <h2>{t("reset_password.sms_verification")}</h2>
+                <p>{t("reset_password.sms_instruction")}</p>
+                <input type="text" placeholder={t("reset_password.verification_code")} />
+                <button className="btn">{t("reset_password.verify")}</button>
               </div>
             )}
           </motion.div>
@@ -58,5 +63,5 @@ const  ResetPasswordModal = ({ isOpen, onClose }: Props) =>{
       )}
     </AnimatePresence>
   );
-}
-export default ResetPasswordModal
+};
+export default ResetPasswordModal;

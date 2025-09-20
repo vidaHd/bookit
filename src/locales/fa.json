@@ -2,7 +2,7 @@
   "header": {
     "welcome": "به بوکیت خوش آمدید",
     "login": "ورود",
-    "signup": "ثبت نام",
+    "register": "ثبت نام",
     "logout": "خروج"
   },
   "profile": {
@@ -12,5 +12,19 @@
     "description": "درباره شما",
     "save": "ذخیره پروفایل",
     "resetPassword": "تغییر رمز عبور"
+  },
+  "reset_password": {
+    "change_password": "تغییر رمز عبور",
+    "current_password": "رمز عبور فعلی",
+    "new_password": "رمز عبور جدید",
+    "repeat_new_password": "تکرار رمز عبور جدید",
+    "continue": "ادامه",
+    "sms_verification": "تایید پیامکی",
+    "sms_instruction": "کدی که برای شما پیامک شده را وارد کنید",
+    "verification_code": "کد تایید",
+    "verify": "تایید"
+  },
+  "footer": {
+    "all_rights_reserved": "تمامی حقوق محفوظ است."
   }
 }

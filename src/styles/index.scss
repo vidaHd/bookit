@@ -1,7 +1,42 @@
 @use "./variables";
 @use "./mixins";
 
+:root {
+  --primary-light: #6cc;
+  --primary: #47aeb1;
+  --primary-dark: #43505f;
+  --text-dark: #2c3e50;
+  --text-light: #f0f4f8;
+  --bg-light: #e6f4f5;
+  --bg-dark: #34495e;
+  --gradient-dark: linear-gradient(-130deg, var(--primary) -1%, var(--primary-dark) 25%);
+  --gradient-light: linear-gradient(130deg, #b8e0e1, #e6f4f5);
+}
+
+html[data-theme="light"] {
+  --bg-color: var(--bg-light);
+  --text-color: var(--text-dark); 
+  --bg-gradient: var(--gradient-light);
+}
+
+html[data-theme="dark"] {
+  --bg-color: var(--bg-dark); 
+  --text-color: var(--text-light); 
+  --bg-gradient: var(--gradient-dark);
+}
+
 body {
-  padding: 0;
   margin: 0;
+  font-family: sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="ltr"] {
+  text-align: left;
 }

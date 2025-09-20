@@ -6,25 +6,33 @@
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
-  transition: 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  &:focus {
+    outline: 2px solid var(--btn-bg);
+    outline-offset: 2px;
+  }
 
   &-primary {
-    background-color: #47aeb1;
-    color: #fff;
+    background-color: var(--primary-dark);
+    color: var(--text-light);
 
     &:hover {
-      background-color: #47aeb1;
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
     }
   }
 
   &-secondary {
-    background-color: #43505f;
-    color: #fff;
+    background-color: var(--primary-light);
+    color: var(--text-light);
 
     &:hover {
-      background-color: #43505fcd;
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
     }
   }
+
   &-icon {
     background: none;
     border: none;
@@ -38,10 +46,12 @@
     svg {
       width: 24px;
       height: 24px;
-      fill: #eceff3;
+      fill: var(--text-color);
+      transition: fill 0.2s ease-in-out, transform 0.2s ease-in-out;
 
       &:hover {
-        fill: #b8d4d5;
+        fill: var(--primary-light);
+        transform: scale(1.1);
       }
     }
   }

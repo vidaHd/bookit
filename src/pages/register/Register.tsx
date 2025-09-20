@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "./Register.scss";
+import { ButtonUI } from "../../ui-kit";
+import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -50,6 +52,13 @@ const Register = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        <ButtonUI
+          variant={VariantType.ICON}
+          type="button"
+          onClick={() => (window.location.href = "/")}
+        >
+          ←
+        </ButtonUI>
         <h1>Register</h1>
 
         <motion.form
@@ -88,7 +97,13 @@ const Register = () => {
               setFormData({ ...formData, password: e.target.value })
             }
           />
-          <button type="submit">Register</button>
+          <ButtonUI
+            variant={VariantType.SECONDARY}
+            onClick={() => (window.location.href = "/register")}
+            type={buttonType.SUBMIT}
+          >
+            register
+          </ButtonUI>
         </motion.form>
       </motion.div>
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import i18n from "../i18n";
 
 type Language = "en" | "fa";
@@ -24,6 +24,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setLanguage(lang);
     i18n.changeLanguage(lang);
   };
+
+   useEffect(() => {
+    document.documentElement.setAttribute("dir", language === "fa" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [language, theme]);
 
   return (
     <AppContext.Provider
