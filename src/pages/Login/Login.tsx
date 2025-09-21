@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../slices/userSlice";
 import "./Login.scss";
-import { ButtonUI } from "../../ui-kit";
+import { ButtonUI, InputUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
+import { InputType } from "../../ui-kit/input/input.type";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,13 @@ const Login = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
+          {/* <InputUI
+            placeholder={t("login.firstName")}
+            type={InputType.TEXT}
+            variant={VariantType.PRIMARY}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          /> */}
           <input
             type="text"
             placeholder={t("login.firstName")}
