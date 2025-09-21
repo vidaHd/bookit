@@ -34,7 +34,7 @@ const Header = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="logo" onClick={() => (window.location.href = "/")}>
+      <h2 className="logo" onClick={() => (window.location.href = "/")} >
         BookIt
       </h2>
       <div className="nav">

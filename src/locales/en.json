@@ -34,5 +34,26 @@
   },
   "footer": {
     "all_rights_reserved": "All rights reserved."
+  },
+  "login": {
+    "welcomeBack": "Welcome Back",
+    "subtitle": "Login to your professional account",
+    "firstName": "First Name",
+    "familyName": "Family Name",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Forgot your password?",
+    "register": "Register",
+    "errors": {
+      "general": "Something went wrong!"
+    }
+  },
+  "register": {
+    "title": "Register",
+    "name": "First Name",
+    "familyName": "Family Name",
+    "mobileNumber": "Mobile Number",
+    "password": "Password",
+    "submit": "Register"
   }
 }

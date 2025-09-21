@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import i18n from "../i18n";
 
 type Language = "en" | "fa";
@@ -14,20 +20,34 @@ interface AppContextProps {
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>("en");
-  const [theme, setTheme] = useState<Theme>("light");
+  const [language, setLanguage] = useState<Language>(
+    () => (localStorage.getItem("language") as Language) || "en"
+  );
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem("theme") as Theme) || "light"
+  );
 
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme", next);
+      return next;
+    });
+  };
 
   const changeLanguage = (lang: Language) => {
     setLanguage(lang);
     i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
   };
 
-   useEffect(() => {
-    document.documentElement.setAttribute("dir", language === "fa" ? "rtl" : "ltr");
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "dir",
+      language === "fa" ? "rtl" : "ltr"
+    );
     document.documentElement.setAttribute("data-theme", theme);
+    i18n.changeLanguage(language);
   }, [language, theme]);
 
   return (

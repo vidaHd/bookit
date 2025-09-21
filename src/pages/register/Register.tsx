@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "./Register.scss";
 import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
+import { useTranslation } from "react-i18next";
+import { useAppContext } from "../../context/LanguageContext";
 
 const Register = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+const { language } = useAppContext();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -57,9 +61,9 @@ const Register = () => {
           type={buttonType.BUTTON}
           onClick={() => (window.location.href = "/")}
         >
-          ←
+          {language === "fa" ? "→" : "←"}
         </ButtonUI>
-        <h1>Register</h1>
+        <h1>{t("register.title")}</h1>
 
         <motion.form
           className="login-form"
@@ -69,13 +73,13 @@ const Register = () => {
         >
           <input
             type="text"
-            placeholder="name"
+            placeholder={t("register.name")}
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           <input
             type="text"
-            placeholder="family name"
+            placeholder={t("register.familyName")}
             value={formData.familyName}
             onChange={(e) =>
               setFormData({ ...formData, familyName: e.target.value })
@@ -83,7 +87,7 @@ const Register = () => {
           />
           <input
             type="text"
-            placeholder="mobile number"
+            placeholder={t("register.mobileNumber")}
             value={formData.mobileNumber}
             onChange={(e) =>
               setFormData({ ...formData, mobileNumber: e.target.value })
@@ -91,7 +95,7 @@ const Register = () => {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t("register.password")}
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
@@ -99,10 +103,9 @@ const Register = () => {
           />
           <ButtonUI
             variant={VariantType.SECONDARY}
-            onClick={() => (window.location.href = "/register")}
             type={buttonType.SUBMIT}
           >
-            register
+            {t("register.submit")}
           </ButtonUI>
         </motion.form>
       </motion.div>

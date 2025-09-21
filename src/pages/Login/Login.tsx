@@ -7,11 +7,15 @@ import "./Login.scss";
 import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
+import { useTranslation } from "react-i18next";
+import { useAppContext } from "../../context/LanguageContext";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showResetModal, setShowResetModal] = useState(false);
+  const { t } = useTranslation();
+  const { language } = useAppContext();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -62,10 +66,10 @@ const Login = () => {
           type={buttonType.BUTTON}
           onClick={() => (window.location.href = "/")}
         >
-          ←
+          {language === "fa" ? "→" : "←"}
         </ButtonUI>
-        <h2 className="back">Welcome Back</h2>
-        <p className="subtitle">Login to your professional account</p>
+        <h2 className="back">{t("login.welcomeBack")}</h2>
+        <p className="subtitle">{t("login.subtitle")}</p>
 
         <motion.form
           className="login-form"
@@ -76,13 +80,13 @@ const Login = () => {
         >
           <input
             type="text"
-            placeholder="First Name"
+            placeholder={t("login.firstName")}
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           <input
             type="text"
-            placeholder="Family Name"
+            placeholder={t("login.familyName")}
             value={formData.familyName}
             onChange={(e) =>
               setFormData({ ...formData, familyName: e.target.value })
@@ -90,25 +94,27 @@ const Login = () => {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t("login.password")}
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
           />
           {error && <span className="error">{error}</span>}
-          <ButtonUI variant={VariantType.SECONDARY}>Login</ButtonUI>
+          <ButtonUI variant={VariantType.SECONDARY}>
+            {t("login.login")}
+          </ButtonUI>
         </motion.form>
 
         <p className="forgot-password" onClick={() => setShowResetModal(true)}>
-          Forgot your password?
+          {t("login.forgotPassword")}
         </p>
         <ButtonUI
           variant={VariantType.SECONDARY}
           onClick={() => (window.location.href = "/register")}
           type={buttonType.SUBMIT}
         >
-          register
+          {t("login.register")}
         </ButtonUI>
         {showResetModal && (
           <ResetPasswordModal

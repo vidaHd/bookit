@@ -37,5 +37,26 @@
   },
   "footer": {
     "all_rights_reserved": "تمامی حقوق محفوظ است."
+  },
+  "login": {
+    "welcomeBack": "خوش آمدید",
+    "subtitle": "وارد حساب کاربری حرفه‌ای خود شوید",
+    "firstName": "نام",
+    "familyName": "نام خانوادگی",
+    "password": "رمز عبور",
+    "login": "ورود",
+    "forgotPassword": "رمز عبور خود را فراموش کرده‌اید؟",
+    "register": "ثبت‌نام",
+    "errors": {
+      "general": "مشکلی پیش آمد!"
+    }
+  },
+  "register": {
+    "title": "ثبت نام",
+    "name": "نام",
+    "familyName": "نام خانوادگی",
+    "mobileNumber": "شماره موبایل",
+    "password": "رمز عبور",
+    "submit": "ثبت نام"
   }
 }
