@@ -3,6 +3,8 @@ import { useState } from "react";
 import "./ResetPassword.scss";
 import { useAppContext } from "../../context/LanguageContext";
 import { useTranslation } from "react-i18next";
+import { ButtonUI } from "../../ui-kit";
+import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 
 type Props = {
   isOpen: boolean;
@@ -44,9 +46,9 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
                 <input type="password" placeholder={t("reset_password.current_password")} />
                 <input type="password" placeholder={t("reset_password.new_password")} />
                 <input type="password" placeholder={t("reset_password.repeat_new_password")} />
-                <button className="btn" onClick={handleNext}>
+               <ButtonUI type={buttonType.BUTTON} variant={VariantType.SECONDARY} onClick={handleNext}>
                   {t("reset_password.continue")}
-                </button>
+                </ButtonUI>
               </div>
             )}
 
@@ -55,7 +57,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
                 <h2>{t("reset_password.sms_verification")}</h2>
                 <p>{t("reset_password.sms_instruction")}</p>
                 <input type="text" placeholder={t("reset_password.verification_code")} />
-                <button className="btn">{t("reset_password.verify")}</button>
+                <ButtonUI type={buttonType.BUTTON} variant={VariantType.SECONDARY}>{t("reset_password.verify")}</ButtonUI>
               </div>
             )}
           </motion.div>
