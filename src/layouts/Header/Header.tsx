@@ -26,6 +26,7 @@ const Header = () => {
   const goToProfilePage = () => {
     window.location.href = "/profile";
   };
+  console.log(name);
 
   return (
     <motion.header
@@ -34,11 +35,11 @@ const Header = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="logo" onClick={() => (window.location.href = "/")} >
+      <h2 className="logo" onClick={() => (window.location.href = "/")}>
         BookIt
       </h2>
       <div className="nav">
-        {!name.token ? (
+        {!name ? (
           <>
             <ButtonUI
               variant={VariantType.ICON}
@@ -69,7 +70,9 @@ const Header = () => {
           <div className="user-info" onClick={goToProfilePage}>
             <span>{name.name}</span>
             <span>{name.familyName}</span>
-            <img src={`http://localhost:5000/${name.profile?.avatar}`} />
+            {name.profile?.avatar && (
+              <img src={`http://localhost:5000/${name.profile?.avatar}`} />
+            )}
             <button className="btn logout" onClick={logOut}>
               {t("header.logout")}
             </button>

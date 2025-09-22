@@ -34,7 +34,7 @@ const Login = () => {
       profile: data.user.profile,
     };
     dispatch(setUser(user));
-    navigate("/booking");
+    navigate("/reserveTime");
   };
 
   const handleLogin = async (e: React.FormEvent) => {

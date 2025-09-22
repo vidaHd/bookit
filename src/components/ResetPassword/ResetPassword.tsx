@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ResetPassword.scss";
 import { useAppContext } from "../../context/LanguageContext";
 import { useTranslation } from "react-i18next";
 import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
+import { useApiMutation } from "../../api/apiClient";
 
 type Props = {
   isOpen: boolean;
@@ -13,11 +14,62 @@ type Props = {
 const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
   const [step, setStep] = useState<"password" | "sms">("password");
   const { theme, language } = useAppContext();
-  const { t } = useTranslation('');
+  const { t } = useTranslation("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [code, setCoede] = useState("");
 
-  const handleNext = () => {
-    setStep("sms");
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!)
+    : { name: "" };
+
+  const changePasswordMutation = useApiMutation<
+    { message: string },
+    { oldPassword: string; newPassword: string; name: string }
+  >({
+    url: "http://localhost:5000/request-reset-password",
+    method: "POST",
+    options: {
+      onSuccess: () => {
+        setStep("sms");
+      },
+      onError: (error: any) => {
+        console.error("Error changing password:", error.message);
+      },
+    },
+  });
+
+  const verifyPasswordMutation = useApiMutation<
+    { message: string },
+    { code: string; name: string }
+  >({
+    url: "http://localhost:5000/check-reset-password",
+    method: "POST",
+    options: {
+      onSuccess: () => {
+        onClose()
+      },
+      onError: (error: any) => {
+        console.error("Error changing password:", error.message);
+      },
+    },
+  });
+
+  const handleChangePassword = () => {
+    changePasswordMutation.mutate({
+      oldPassword,
+      newPassword,
+      name: user.name,
+    });
   };
+
+  const verifyPassword = () => {
+    verifyPasswordMutation.mutate({
+      code: code,
+      name: user.name,
+    });
+  };
+
 
   return (
     <AnimatePresence>
@@ -43,10 +95,23 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
             {step === "password" && (
               <div className="modal-content">
                 <h2>{t("reset_password.change_password")}</h2>
-                <input type="password" placeholder={t("reset_password.current_password")} />
-                <input type="password" placeholder={t("reset_password.new_password")} />
-                <input type="password" placeholder={t("reset_password.repeat_new_password")} />
-               <ButtonUI type={buttonType.BUTTON} variant={VariantType.SECONDARY} onClick={handleNext}>
+                <input
+                  type="password"
+                  placeholder={t("reset_password.current_password")}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder={t("reset_password.new_password")}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <ButtonUI
+                  type={buttonType.BUTTON}
+                  variant={VariantType.SECONDARY}
+                  onClick={handleChangePassword}
+                >
                   {t("reset_password.continue")}
                 </ButtonUI>
               </div>
@@ -56,8 +121,19 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
               <div className="modal-content">
                 <h2>{t("reset_password.sms_verification")}</h2>
                 <p>{t("reset_password.sms_instruction")}</p>
-                <input type="text" placeholder={t("reset_password.verification_code")} />
-                <ButtonUI type={buttonType.BUTTON} variant={VariantType.SECONDARY}>{t("reset_password.verify")}</ButtonUI>
+                <input
+                  value={code}
+                  onChange={(e) => setCoede(e.target.value)}
+                  type="text"
+                  placeholder={t("reset_password.verification_code")}
+                />
+                <ButtonUI
+                  type={buttonType.BUTTON}
+                  variant={VariantType.SECONDARY}
+                  onClick={verifyPassword}
+                >
+                  {t("reset_password.verify")}
+                </ButtonUI>
               </div>
             )}
           </motion.div>
