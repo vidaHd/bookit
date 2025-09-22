@@ -39,7 +39,7 @@ const Header = () => {
         BookIt
       </h2>
       <div className="nav">
-        {!name ? (
+        {!name.name ? (
           <>
             <ButtonUI
               variant={VariantType.ICON}

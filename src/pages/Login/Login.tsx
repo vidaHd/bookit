@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../slices/userSlice";
 import "./Login.scss";
-import { ButtonUI, InputUI } from "../../ui-kit";
+import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
-import { InputType } from "../../ui-kit/input/input.type";
+import { useApiMutation } from "../../api/apiClient";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -37,21 +37,25 @@ const Login = () => {
     navigate("/reserveTime");
   };
 
+  const loginMutation = useApiMutation<
+    { message: string },
+    { name: string; familyName: string; password: string }
+  >({
+    url: "http://localhost:5000/login",
+    method: "POST",
+    options: {
+      onSuccess: (data) => {
+        setUserInformation(data);
+      },
+      onError: (error: any) => {
+        setError(error);
+      },
+    },
+  });
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (res.ok) setUserInformation(data);
-      else setError(data.error);
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong!");
-    }
+    loginMutation.mutate(formData);
   };
 
   return (
@@ -79,13 +83,6 @@ const Login = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          {/* <InputUI
-            placeholder={t("login.firstName")}
-            type={InputType.TEXT}
-            variant={VariantType.PRIMARY}
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          /> */}
           <input
             type="text"
             placeholder={t("login.firstName")}

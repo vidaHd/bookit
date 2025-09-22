@@ -6,12 +6,13 @@ import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
+import { useMutation } from "@tanstack/react-query";
+import { useApiMutation } from "../../api/apiClient";
 
 const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
-const { language } = useAppContext();
+  const { language } = useAppContext();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,26 +21,22 @@ const { language } = useAppContext();
     password: "",
   });
 
+  const registerMutation = useApiMutation<
+    { message: string },
+    { name: string; familyName: string; mobileNumber: string; password: string }
+  >({
+    url: "http://localhost:5000/sign",
+    method: "POST",
+    options: {
+      onSuccess: () => {
+        navigate("/login");
+      },
+    },
+  });
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const res = await fetch("http://localhost:5000/sign", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        navigate("/login");
-      } else {
-        setError(data.error);
-      }
-    } catch (err) {
-      console.error("Error:", err);
-    }
+    registerMutation.mutate(formData);
   };
 
   return (
@@ -101,10 +98,7 @@ const { language } = useAppContext();
               setFormData({ ...formData, password: e.target.value })
             }
           />
-          <ButtonUI
-            variant={VariantType.SECONDARY}
-            type={buttonType.SUBMIT}
-          >
+          <ButtonUI variant={VariantType.SECONDARY} type={buttonType.SUBMIT}>
             {t("register.submit")}
           </ButtonUI>
         </motion.form>
