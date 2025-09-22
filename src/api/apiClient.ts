@@ -24,8 +24,19 @@ const fetcher = async ({
     },
     body: body ? JSON.stringify(body) : undefined,
   });
+  console.log(res);
 
-  if (!res.ok) throw new Error(`Error ${res.status}`);
+  if (!res.ok) {
+    let errorMessage = `Error ${res.status}`;
+    try {
+      const data = await res.json();
+      errorMessage = data.error || data.message || errorMessage;
+    } catch {
+      const text = await res.text();
+      if (text) errorMessage = text;
+    }
+    throw new Error(errorMessage);
+  }
   return res.json();
 };
 

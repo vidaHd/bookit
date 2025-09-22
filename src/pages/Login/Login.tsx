@@ -48,7 +48,7 @@ const Login = () => {
         setUserInformation(data);
       },
       onError: (error: any) => {
-        setError(error);
+        setError(error.message);
       },
     },
   });

@@ -1,38 +1,72 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next"; 
-import useProfileData from "../../utils/profile";
+import { useTranslation } from "react-i18next";
 import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
 import "./Profile.scss";
 import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
+import { useApiMutation, useApiQuery } from "../../api/apiClient";
 
+type ProfileFormData = {
+  description: string;
+  age: string;
+  gender: string;
+  avatar: File | string | null;
+};
 const ProfileForm = () => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const [preview, setPreview] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProfileFormData>({
     description: "",
     age: "",
     gender: "",
-    avatar: null as File | null,
+    avatar: null,
   });
 
-  const { mutation, profileQuery } = useProfileData();
+  const {
+    data: profile,
+    isLoading,
+    refetch,
+  } = useApiQuery<{
+    profile: {
+      description: string;
+      age: string;
+      gender: string;
+      avatar: string | null;
+    };
+  }>({
+    key: "profile",
+    url: "http://localhost:5000/profile",
+  });
+
+  const updateProfile = useApiMutation<
+    { success: boolean },
+    { description: string; age: string; gender: string; avatar: File | null }
+  >({
+    url: "http://localhost:5000/profile",
+    method: "POST",
+    options: {
+      onSuccess: (data) => {
+        refetch();
+      },
+    },
+  });
 
   useEffect(() => {
-    if (profileQuery.data) {
+    if (profile) {
+      console.log(profile);
       setFormData({
-        description: profileQuery.data.profile.description || "",
-        age: profileQuery.data.profile.age || "",
-        avatar: profileQuery.data.profile.avatar || null,
-        gender: profileQuery.data.profile.gender || "",
+        description: profile.profile.description || "",
+        age: profile.profile.age || "",
+        gender: profile.profile.gender || "",
+        avatar: profile.profile.avatar ?? null,
       });
-      setPreview(profileQuery.data.profile.avatar || null);
+      setPreview(profile.profile.avatar ?? "");
     }
-  }, [profileQuery.data]);
+  }, [profile]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -48,7 +82,17 @@ const ProfileForm = () => {
 
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
-    mutation.mutate(formData);
+    const payload = new FormData();
+    payload.append("description", formData.description);
+    payload.append("age", formData.age);
+    payload.append("gender", formData.gender);
+
+    if (formData.avatar instanceof File) {
+      payload.append("avatar", formData.avatar);
+    }
+    console.log({ payload, formData }, "ssss");
+
+    updateProfile.mutate(payload as any);
   };
 
   return (
