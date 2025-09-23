@@ -19,7 +19,7 @@ const ProfileForm = () => {
   const [showResetModal, setShowResetModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [formData, setFormData] = useState<ProfileFormData>({
+  const [data, setData] = useState<ProfileFormData>({
     description: "",
     age: "",
     gender: "",
@@ -41,6 +41,7 @@ const ProfileForm = () => {
     key: "profile",
     url: "http://localhost:5000/profile",
   });
+console.log(profile);
 
   const updateProfile = useApiMutation<
     { success: boolean },
@@ -48,22 +49,27 @@ const ProfileForm = () => {
   >({
     url: "http://localhost:5000/profile",
     method: "POST",
-    options: {
-      onSuccess: (data) => {
-        refetch();
-      },
-    },
   });
 
   useEffect(() => {
     if (profile) {
-      console.log(profile);
-      setFormData({
-        description: profile.profile.description || "",
-        age: profile.profile.age || "",
-        gender: profile.profile.gender || "",
-        avatar: profile.profile.avatar ?? null,
+      setData((prev) => {
+        if (
+          prev.description === profile.profile.description &&
+          prev.age === profile.profile.age &&
+          prev.gender === profile.profile.gender &&
+          prev.avatar === profile.profile.avatar
+        ) {
+          return prev;
+        }
+        return {
+          description: profile.profile.description || "",
+          age: profile.profile.age || "",
+          gender: profile.profile.gender || "",
+          avatar: profile.profile.avatar ?? null,
+        };
       });
+
       setPreview(profile.profile.avatar ?? "");
     }
   }, [profile]);
@@ -71,7 +77,7 @@ const ProfileForm = () => {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setFormData({ ...formData, avatar: file });
+      setData({ ...data, avatar: file });
       setPreview(URL.createObjectURL(file));
     }
   };
@@ -80,20 +86,26 @@ const ProfileForm = () => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
-    const payload = new FormData();
-    payload.append("description", formData.description);
-    payload.append("age", formData.age);
-    payload.append("gender", formData.gender);
+const handleSubmit = (e?: React.FormEvent) => {
+  e?.preventDefault();
 
-    if (formData.avatar instanceof File) {
-      payload.append("avatar", formData.avatar);
-    }
-    console.log({ payload, formData }, "ssss");
+  const formData = new FormData();
 
-    updateProfile.mutate(payload as any);
-  };
+  if (data.avatar && data.avatar !== profile?.profile.avatar) {
+    formData.append("avatar", data.avatar as File);
+  }
+  if (data.description !== profile?.profile.description) {
+    formData.append("description", data.description);
+  }
+  if (data.age !== profile?.profile.age) {
+    formData.append("age", String(data.age));
+  }
+  if (data.gender !== profile?.profile.gender) {
+    formData.append("gender", data.gender);
+  }
+  updateProfile.mutate(formData as any);
+};
+
 
   return (
     <div className="profile-wrapper">
@@ -132,10 +144,8 @@ const ProfileForm = () => {
             <label>{t("profile.age")}</label>
             <input
               type="number"
-              value={formData.age}
-              onChange={(e) =>
-                setFormData({ ...formData, age: e.target.value })
-              }
+              value={data.age}
+              onChange={(e) => setData({ ...data, age: e.target.value })}
               placeholder={t("profile.agePlaceholder")}
             />
           </div>
@@ -143,10 +153,8 @@ const ProfileForm = () => {
           <div className="form-group">
             <label>{t("profile.gender")}</label>
             <select
-              value={formData.gender}
-              onChange={(e) =>
-                setFormData({ ...formData, gender: e.target.value })
-              }
+              value={data.gender}
+              onChange={(e) => setData({ ...data, gender: e.target.value })}
             >
               <option value="">{t("profile.selectOption")}</option>
               <option value="male">{t("profile.male")}</option>
@@ -158,9 +166,9 @@ const ProfileForm = () => {
           <div className="form-group">
             <label>{t("profile.aboutMe")}</label>
             <textarea
-              value={formData.description}
+              value={data.description}
               onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
+                setData({ ...data, description: e.target.value })
               }
               placeholder={t("profile.aboutPlaceholder")}
             />

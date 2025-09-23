@@ -15,16 +15,16 @@ const fetcher = async ({
   body?: any;
 }) => {
   const token = localStorage.getItem("token") || "";
+  const isFormData = body instanceof FormData;
 
   const res = await fetch(url, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       Authorization: `Bearer ${token}`,
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
   });
-  console.log(res);
 
   if (!res.ok) {
     let errorMessage = `Error ${res.status}`;
