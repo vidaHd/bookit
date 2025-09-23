@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
@@ -26,11 +25,7 @@ const ProfileForm = () => {
     avatar: null,
   });
 
-  const {
-    data: profile,
-    isLoading,
-    refetch,
-  } = useApiQuery<{
+  const { data: profile } = useApiQuery<{
     profile: {
       description: string;
       age: string;
@@ -41,7 +36,7 @@ const ProfileForm = () => {
     key: "profile",
     url: "http://localhost:5000/profile",
   });
-console.log(profile);
+  console.log(profile);
 
   const updateProfile = useApiMutation<
     { success: boolean },
@@ -86,26 +81,25 @@ console.log(profile);
     fileInputRef.current?.click();
   };
 
-const handleSubmit = (e?: React.FormEvent) => {
-  e?.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  if (data.avatar && data.avatar !== profile?.profile.avatar) {
-    formData.append("avatar", data.avatar as File);
-  }
-  if (data.description !== profile?.profile.description) {
-    formData.append("description", data.description);
-  }
-  if (data.age !== profile?.profile.age) {
-    formData.append("age", String(data.age));
-  }
-  if (data.gender !== profile?.profile.gender) {
-    formData.append("gender", data.gender);
-  }
-  updateProfile.mutate(formData as any);
-};
-
+    if (data.avatar && data.avatar !== profile?.profile.avatar) {
+      formData.append("avatar", data.avatar as File);
+    }
+    if (data.description !== profile?.profile.description) {
+      formData.append("description", data.description);
+    }
+    if (data.age !== profile?.profile.age) {
+      formData.append("age", String(data.age));
+    }
+    if (data.gender !== profile?.profile.gender) {
+      formData.append("gender", data.gender);
+    }
+    updateProfile.mutate(formData as any);
+  };
 
   return (
     <div className="profile-wrapper">
