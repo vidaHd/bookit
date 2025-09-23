@@ -26,7 +26,6 @@ const Header = () => {
   const goToProfilePage = () => {
     window.location.href = "/profile";
   };
-  console.log(name);
 
   return (
     <motion.header
@@ -39,45 +38,45 @@ const Header = () => {
         BookIt
       </h2>
       <div className="nav">
-        {!name.name ? (
-          <>
-            <ButtonUI
-              variant={VariantType.ICON}
-              onClick={() => changeLanguage(language === "en" ? "fa" : "en")}
-            >
-              <SvgLanguage />
-            </ButtonUI>
+        <>
+          <ButtonUI
+            variant={VariantType.ICON}
+            onClick={() => changeLanguage(language === "en" ? "fa" : "en")}
+          >
+            <SvgLanguage />
+          </ButtonUI>
 
-            <ButtonUI variant={VariantType.ICON} onClick={toggleTheme}>
-              <ThemeModeSvg />
-            </ButtonUI>
+          <ButtonUI variant={VariantType.ICON} onClick={toggleTheme}>
+            <ThemeModeSvg />
+          </ButtonUI>
+          {!name.name && (
+            <>
+              <ButtonUI
+                variant={VariantType.PRIMARY}
+                onClick={() => (window.location.href = "/login")}
+              >
+                {t("header.login")}
+              </ButtonUI>
 
-            <ButtonUI
-              variant={VariantType.PRIMARY}
-              onClick={() => (window.location.href = "/login")}
-            >
-              {t("header.login")}
-            </ButtonUI>
-
-            <ButtonUI
-              variant={VariantType.SECONDARY}
-              onClick={() => (window.location.href = "/register")}
-            >
-              {t("header.register")}
-            </ButtonUI>
-          </>
-        ) : (
-          <div className="user-info" onClick={goToProfilePage}>
-            <span>{name.name}</span>
-            <span>{name.familyName}</span>
-            {name.profile?.avatar && (
-              <img src={`http://localhost:5000/${name.profile?.avatar}`} />
-            )}
-            <button className="btn logout" onClick={logOut}>
-              {t("header.logout")}
-            </button>
-          </div>
-        )}
+              <ButtonUI
+                variant={VariantType.SECONDARY}
+                onClick={() => (window.location.href = "/register")}
+              >
+                {t("header.register")}
+              </ButtonUI>
+            </>
+          )}
+        </>
+        <div className="user-info" onClick={goToProfilePage}>
+          <span>{name.name}</span>
+          <span>{name.familyName}</span>
+          {name.profile?.avatar && (
+            <img src={`http://localhost:5000/${name.profile?.avatar}`} />
+          )}
+          <button className="btn logout" onClick={logOut}>
+            {t("header.logout")}
+          </button>
+        </div>
       </div>
     </motion.header>
   );
