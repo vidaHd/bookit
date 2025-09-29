@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {  useState } from "react";
+import { useState } from "react";
 import "./ResetPassword.scss";
 import { useAppContext } from "../../context/LanguageContext";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
       onSuccess: () => {
         setStep("sms");
       },
-      onError: (error: {message:string}) => {
+      onError: (error: { message: string }) => {
         console.error("Error changing password:", error.message);
       },
     },
@@ -50,7 +50,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
       onSuccess: () => {
         onClose();
       },
-      onError: (error: {message:string}) => {
+      onError: (error: { message: string }) => {
         console.error("Error changing password:", error.message);
       },
     },
