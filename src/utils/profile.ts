@@ -16,7 +16,7 @@ const useProfileData = () => {
           description: data.description,
           age: data.age,
           gender: data.gender,
-        })
+        }),
       );
       const res = await fetch(API_URL, {
         method: "POST",

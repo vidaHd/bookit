@@ -1,6 +1,6 @@
-import { useAppContext } from '../../context/LanguageContext';
-import './Footer.scss'
-import { useTranslation } from 'react-i18next';
+import { useAppContext } from "../../context/LanguageContext";
+import "./Footer.scss";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();

@@ -1,5 +1,6 @@
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "./ResetPassword.scss";
 import { useAppContext } from "../../context/LanguageContext";
 import { useTranslation } from "react-i18next";
@@ -7,11 +8,11 @@ import { ButtonUI } from "../../ui-kit";
 import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 import { useApiMutation } from "../../api/apiClient";
 
-type Props = {
+type ResetPasswordModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
-const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
+const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
   const [step, setStep] = useState<"password" | "sms">("password");
   const { theme, language } = useAppContext();
   const { t } = useTranslation("");
@@ -33,7 +34,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
       onSuccess: () => {
         setStep("sms");
       },
-      onError: (error: any) => {
+      onError: (error: {message:string}) => {
         console.error("Error changing password:", error.message);
       },
     },
@@ -47,9 +48,9 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
     method: "POST",
     options: {
       onSuccess: () => {
-        onClose()
+        onClose();
       },
-      onError: (error: any) => {
+      onError: (error: {message:string}) => {
         console.error("Error changing password:", error.message);
       },
     },
@@ -69,7 +70,6 @@ const ResetPasswordModal = ({ isOpen, onClose }: Props) => {
       name: user.name,
     });
   };
-
 
   return (
     <AnimatePresence>

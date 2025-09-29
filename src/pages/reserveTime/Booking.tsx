@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import './reserveTime.scss'
+import "./reserveTime.scss";
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const times = ["09:00", "11:00", "13:00", "15:00", "17:00"];
 
@@ -51,8 +51,6 @@ const Booking = () => {
             Selected: {selected.day} at {selected.time}
           </motion.div>
         )}
-
-     
       </div>
     </>
   );

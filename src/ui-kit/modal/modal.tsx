@@ -1,5 +1,5 @@
-const ModalUI =()=>{
-    return <div>modal</div>
-}
+const ModalUI = () => {
+  return <div>modal</div>;
+};
 
-export default ModalUI
+export default ModalUI;

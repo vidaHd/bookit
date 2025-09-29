@@ -1,4 +1,3 @@
-
 interface DayCardProps {
   day: string;
 }

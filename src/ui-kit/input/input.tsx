@@ -9,7 +9,7 @@ const InputUI = ({
   type,
   placeholder,
   value,
-  onChange
+  onChange,
 }: InputProps) => {
   return (
     <motion.input

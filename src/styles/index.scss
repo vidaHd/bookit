@@ -12,9 +12,8 @@
     var(--primary-dark) 25%
   );
   --gradient-light: linear-gradient(130deg, #b8e0e1, #e6f4f5);
-  --btn-color-light:  #34495e;
-  --btn-color-dark:  #47aeb1;
-
+  --btn-color-light: #34495e;
+  --btn-color-dark: #47aeb1;
 }
 
 html[data-theme="light"] {

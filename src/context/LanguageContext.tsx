@@ -21,10 +21,10 @@ const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>(
-    () => (localStorage.getItem("language") as Language) || "en"
+    () => (localStorage.getItem("language") as Language) || "en",
   );
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem("theme") as Theme) || "light"
+    () => (localStorage.getItem("theme") as Theme) || "light",
   );
 
   const toggleTheme = () => {
@@ -44,7 +44,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     document.documentElement.setAttribute(
       "dir",
-      language === "fa" ? "rtl" : "ltr"
+      language === "fa" ? "rtl" : "ltr",
     );
     document.documentElement.setAttribute("data-theme", theme);
     i18n.changeLanguage(language);
