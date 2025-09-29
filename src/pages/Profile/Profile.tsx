@@ -42,7 +42,7 @@ const ProfileForm = () => {
     { success: boolean },
     { description: string; age: string; gender: string; avatar: File | null }
   >({
-    url: "http://localhost:5000/profile",
+    url: "http://localhost:5000/updateProfile",
     method: "POST",
   });
 

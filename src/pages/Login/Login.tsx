@@ -41,7 +41,7 @@ const Login = () => {
     { message: string },
     { name: string; familyName: string; password: string }
   >({
-    url: "http://localhost:5000/login",
+    url: "http://localhost:5000/auth/login",
     method: "POST",
     options: {
       onSuccess: (data) => {

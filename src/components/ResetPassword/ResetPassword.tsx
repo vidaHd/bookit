@@ -19,6 +19,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [code, setCoede] = useState("");
+  const [error, setError] = useState("");
 
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user")!)
@@ -52,6 +53,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
       },
       onError: (error: { message: string }) => {
         console.error("Error changing password:", error.message);
+        setError(error.message);
       },
     },
   });
@@ -134,6 +136,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
                 >
                   {t("reset_password.verify")}
                 </ButtonUI>
+                <span style={{ marginTop: "4px" }}>{error ?? ""}</span>
               </div>
             )}
           </motion.div>

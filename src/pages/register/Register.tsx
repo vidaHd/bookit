@@ -25,7 +25,7 @@ const Register = () => {
     { message: string },
     { name: string; familyName: string; mobileNumber: string; password: string }
   >({
-    url: "http://localhost:5000/sign",
+    url: "http://localhost:5000/auth/register",
     method: "POST",
     options: {
       onSuccess: () => {
