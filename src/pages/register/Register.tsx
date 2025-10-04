@@ -8,11 +8,14 @@ import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
 import { useMutation } from "@tanstack/react-query";
 import { useApiMutation } from "../../api/apiClient";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../slices/userSlice";
 
 const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { language } = useAppContext();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,13 +25,30 @@ const Register = () => {
   });
 
   const registerMutation = useApiMutation<
-    { message: string },
+    {
+      message: string;
+      user: {
+        _id: string;
+        name: string;
+        familyName?: string;
+        mobileNumber?: string;
+      };
+    },
     { name: string; familyName: string; mobileNumber: string; password: string }
   >({
     url: "http://localhost:5000/auth/register",
     method: "POST",
     options: {
-      onSuccess: () => {
+      onSuccess: (data) => {
+
+        dispatch(
+          setUser({
+            name: formData.name,
+            familyName: formData.familyName,
+            mobileNumber: formData.mobileNumber,
+            id: data.user._id,
+          }),
+        );
         navigate("/login");
       },
     },

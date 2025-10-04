@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../slices/userSlice";
 import "./Login.scss";
 import { ButtonUI } from "../../ui-kit";
@@ -10,6 +10,7 @@ import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
 import { useApiMutation } from "../../api/apiClient";
+import { RootState } from "../../store/store";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,11 +20,11 @@ const Login = () => {
   const { language } = useAppContext();
 
   const [formData, setFormData] = useState({
-    name: "",
-    familyName: "",
+    mobileNumber: "",
     password: "",
   });
   const [error, setError] = useState("");
+  const userId = JSON.parse(localStorage.getItem("user")!)?.id;
 
   const setUserInformation = (data: any) => {
     const user = {
@@ -39,7 +40,7 @@ const Login = () => {
 
   const loginMutation = useApiMutation<
     { message: string },
-    { name: string; familyName: string; password: string }
+    { mobileNumber: string; password: string; _id: string }
   >({
     url: "http://localhost:5000/auth/login",
     method: "POST",
@@ -55,7 +56,10 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate(formData);
+    loginMutation.mutate({
+      _id: userId ?? "",
+      ...formData,
+    });
   };
 
   return (
@@ -85,18 +89,13 @@ const Login = () => {
         >
           <input
             type="text"
-            placeholder={t("login.firstName")}
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder={t("login.familyName")}
-            value={formData.familyName}
+            placeholder={t("login.mobileNumber")}
+            value={formData.mobileNumber}
             onChange={(e) =>
-              setFormData({ ...formData, familyName: e.target.value })
+              setFormData({ ...formData, mobileNumber: e.target.value })
             }
           />
+
           <input
             type="password"
             placeholder={t("login.password")}

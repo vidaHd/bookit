@@ -14,6 +14,11 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import { AppProvider } from "./context/LanguageContext";
 import "./i18n";
+import AddNewCompany from "./pages/AddNewCompany/AddNewCompany";
+import AddedService from "./pages/AddedService/AddedService";
+import AddUserService from "./pages/AddUserService/AddUserService";
+import AddAvailableTime from "./pages/AddAvailableTime/AddAvailableTime";
+import "react-datepicker/dist/react-datepicker.css";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -32,6 +37,10 @@ root.render(
                 <Route path="/" element={<Welcome />} />
                 <Route path="/reserveTime" element={<Booking />} />
                 <Route path="/profile" element={<ProfileForm />} />
+                <Route path="/add-new-company" element={<AddNewCompany />} />
+                <Route path="/add-new-service" element={<AddedService />} />
+                <Route path="/add-user-service" element={<AddUserService />} />
+                <Route path="/available-time" element={<AddAvailableTime />} />
               </Route>
             </Routes>
           </BrowserRouter>

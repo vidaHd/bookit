@@ -47,6 +47,7 @@
     "login": "ورود",
     "forgotPassword": "رمز عبور خود را فراموش کرده‌اید؟",
     "register": "ثبت‌نام",
+    "mobileNumber":"شماره موبایل",
     "errors": {
       "general": "مشکلی پیش آمد!"
     }

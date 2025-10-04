@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const name = useSelector((state: RootState) => state.user);
+  console.log(name);
+  
   const { language, changeLanguage, theme, toggleTheme } = useAppContext();
   const { t } = useTranslation();
 
@@ -26,7 +28,9 @@ const Header = () => {
   const goToProfilePage = () => {
     window.location.href = "/profile";
   };
-
+  const goToAddNewCompanyPage = () => {
+    window.location.href = "/add-new-company";
+  };
   return (
     <motion.header
       className={`header ${theme}`}
@@ -37,6 +41,7 @@ const Header = () => {
       <h2 className="logo" onClick={() => (window.location.href = "/")}>
         BookIt
       </h2>
+
       <div className="nav">
         <>
           <ButtonUI
@@ -67,12 +72,20 @@ const Header = () => {
             </>
           )}
         </>
+        {name.name ? (
+          <div onClick={goToAddNewCompanyPage}>
+            <span style={{ cursor: "pointer" }}>ساخت حساب شرکتی</span>
+          </div>
+        ) : (
+          ""
+        )}
         <div className="user-info" onClick={goToProfilePage}>
           <span>{name.name}</span>
           <span>{name.familyName}</span>
           {name.profile?.avatar && (
             <img src={`http://localhost:5000/${name.profile?.avatar}`} />
           )}
+
           <button className="btn logout" onClick={logOut}>
             {t("header.logout")}
           </button>
