@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../../context/LanguageContext";
-import "./Notification.css";
+import "./Notification.scss";
 
 const Toast = ({
   message,

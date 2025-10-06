@@ -3,14 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0rem;
-  background: transparent;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: var(--bg-color);
+    background: var(--color-surface);
   color: var(--text-color);
   h2 {
     font-size: var(--font-size-h2);
@@ -21,7 +20,6 @@
   .logo {
     font-size: var(--font-size-h3);
     font-weight: bold;
-    color: var(--text-color);
     padding-left: 2rem;
     padding-right: 2rem;
     cursor: pointer;
@@ -50,7 +48,6 @@
       align-items: center;
       gap: 1rem;
       font-weight: 500;
-      color: var(--text-color);
       justify-items: center;
     }
   }

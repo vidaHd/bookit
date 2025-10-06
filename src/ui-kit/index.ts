@@ -1,3 +1,3 @@
-export * from "./button";
-export * from "./input";
-export * from "./modal";
+export { ButtonUI } from "./button";
+export { InputUI } from "./input";
+export { ModalUI } from "./modal";

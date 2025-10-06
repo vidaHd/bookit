@@ -1,17 +1,14 @@
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../slices/userSlice";
-import "./AddNewCompany.scss";
-import { ButtonUI } from "../../ui-kit";
-import { buttonType, VariantType } from "../../ui-kit/button/button.type";
-import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
+import { ButtonUI, InputUI } from "../../ui-kit";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
 import { useApiMutation, useApiQuery } from "../../api/apiClient";
+import "./AddNewCompany.scss";
+import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 
-const AddNewCompany = () => {
+const AddNewCompany: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { language } = useAppContext();
@@ -20,7 +17,8 @@ const AddNewCompany = () => {
     companyName: "",
     jobId: "",
   });
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
   const userId = JSON.parse(localStorage.getItem("user")!).id;
 
   const companyMutation = useApiMutation<
@@ -35,80 +33,155 @@ const AddNewCompany = () => {
         navigate("/add-new-service");
       },
       onError: (error: any) => {
-        setError(error.message);
+        setErrors({ general: error.message });
       },
     },
   });
 
-  const jobs = useApiQuery({
+  const { data: jobs, isLoading: jobsLoading } = useApiQuery({
     key: "jobs",
     url: "http://localhost:5000/jobs",
-  }).data;
+  });
 
-  const handleAddCompany = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData.companyName.trim()) {
+      newErrors.companyName = "نام شرکت الزامی است";
+    }
+
+    if (!formData.jobId.trim()) {
+      newErrors.jobId = "انتخاب شغل الزامی است";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleAddCompany = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
     const finalData = {
       ...formData,
       _id: userId,
     };
+
     companyMutation.mutate(finalData);
+    setIsLoading(false);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
   };
 
   return (
-    <div className="company-page">
-      <motion.div
-        className="company-card"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ButtonUI
-          variant={VariantType.ICON}
-          type={buttonType.BUTTON}
-          onClick={() => (window.location.href = "/")}
+    <div className="add-company-page">
+      <div className="container">
+        <motion.div
+          className="company-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          {language === "fa" ? "→" : "←"}
-        </ButtonUI>
-        <p className="subtitle">ساخت اکانت شرکتی</p>
+          {/* Header */}
+          <div className="company-header">
+            <ButtonUI variant={VariantType.ICON} onClick={() => navigate("/")}>
+              {t("add-new-company.back")}
+            </ButtonUI>
 
-        <motion.form
-          className="company-form"
-          onSubmit={handleAddCompany}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          <input
-            type="text"
-            placeholder="نام شرکت"
-            value={formData.companyName}
-            onChange={(e) =>
-              setFormData({ ...formData, companyName: e.target.value })
-            }
-          />
+            <div className="company-title">
+              <h1>{t("add-new-company.create_company_account")}</h1>
+              <p>{t("add-new-company.enter_company_info")}</p>
+            </div>
+          </div>
 
-          <select
-            value={formData.jobId}
-            onChange={(e) =>
-              setFormData({ ...formData, jobId: e.target.value })
-            }
+          {/* Form */}
+          <motion.form
+            className="company-form"
+            onSubmit={handleAddCompany}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <option value="">یک شغل انتخاب کنید</option>
-            {Array.isArray(jobs) &&
-              jobs.map((item: any) => (
-                <option key={item.jobCode} value={item.jobCode}>
-                  {item.name}
-                </option>
-              ))}
-          </select>
+            <div className="form-grid">
+              <input
+                className="input-new-company"
+                type="text"
+                placeholder={t("add-new-company.company_name_placeholder")}
+                value={formData.companyName}
+                onChange={(e) =>
+                  handleInputChange("companyName", e.target.value)
+                }
+              />
 
-          {error && <span className="error">{error}</span>}
+              <div className="form-group">
+                <label className="input-label required">
+                  {t("add-new-company.job_label")}
+                </label>
+                <div className="select-wrapper">
+                  <select
+                    value={formData.jobId}
+                    onChange={(e) => handleInputChange("jobId", e.target.value)}
+                    className={`input ${errors.jobId ? "error" : ""}`}
+                    disabled={jobsLoading}
+                  >
+                    <option value="">
+                      {jobsLoading
+                        ? t("add-new-company.loading jobs")
+                        : t("add-new-company.select_job")}
+                    </option>
+                    {Array.isArray(jobs) &&
+                      jobs.map((item: any) => (
+                        <option key={item.jobCode} value={item.jobCode}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
 
-          <ButtonUI variant={VariantType.SECONDARY} type={buttonType.SUBMIT}>
-            ایجاد حساب{" "}
-          </ButtonUI>
-        </motion.form>
-      </motion.div>
+                  {errors && <span className="error">{errors.general}</span>}
+
+                  <div className="select-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <polyline points="6,9 12,15 18,9" />
+                    </svg>
+                  </div>
+                </div>
+                {errors.jobId && (
+                  <div className="input-error">{errors.jobId}</div>
+                )}
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <ButtonUI
+                variant={VariantType.PRIMARY}
+                onClick={() => navigate("/")}
+                type={buttonType.BUTTON}
+              >
+                {t("add-new-company.cancel")}
+              </ButtonUI>
+
+              <ButtonUI
+                variant={VariantType.SECONDARY}
+                type={buttonType.SUBMIT}
+              >
+                {t("add-new-company.create")}
+              </ButtonUI>
+            </div>
+          </motion.form>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./AddAvailableTime.scss";
+import { useApiMutation, useApiQuery } from "../../api/apiClient";
+import { useNavigate } from "react-router-dom";
 
-const WEEK_DAYS = [
-  { key: "saturday", label: "شنبه" },
-  { key: "sunday", label: "یک‌شنبه" },
-  { key: "monday", label: "دوشنبه" },
-  { key: "tuesday", label: "سه‌شنبه" },
-  { key: "wednesday", label: "چهارشنبه" },
-  { key: "thursday", label: "پنج‌شنبه" },
-  { key: "friday", label: "جمعه" },
-];
+const WEEK_DAY_KEYS = [
+  "saturday",
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+] as const;
 
-// تولید بازه‌های زمانی از 00:00 تا 23:00 هر یک ساعت
 const generateTimeSlots = () => {
   const slots = [];
   for (let h = 0; h < 24; h++) {
@@ -22,7 +24,43 @@ const generateTimeSlots = () => {
 };
 
 const AvailableTimeForm: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedTimes, setSelectedTimes] = useState<{ [day: string]: string[] }>({});
+  const [originalTimes, setOriginalTimes] = useState<{ [day: string]: string[] }>({});
+  const company = localStorage.getItem("company");
+  const companyId = company ? JSON.parse(company)._id : "";
+  const navigate = useNavigate();
+
+  // const { data: fetchedTimes, refetch } = useApiQuery({
+  //   key: ["availableTime", companyId],
+  //   url: `http://localhost:5000/availableTime/${companyId}`,
+  //   method: "GET",
+  // });
+
+  // useEffect(() => {
+    // if (fetchedTimes) {
+      // setSelectedTimes(fetchedTimes);
+      // setOriginalTimes(fetchedTimes);
+    // }
+  // }, [fetchedTimes]);
+
+  // --- Mutation to add/update available times ---
+  const addAvailableTimeMutation = useApiMutation<
+    any,
+    { companyId: string; day: string; times: string[] }
+  >({
+    url: "http://localhost:5000/availableTime",
+    method: "POST",
+    options: {
+      onSuccess: () => {
+        // refetch();
+        navigate('/dashboard');
+      },
+      onError: (error) => {
+        console.error("Error:", error);
+      },
+    },
+  });
 
   const handleSelect = (day: string, time: string) => {
     setSelectedTimes((prev) => {
@@ -37,42 +75,67 @@ const AvailableTimeForm: React.FC = () => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("Selected times:", selectedTimes);
-    alert("زمان‌های انتخاب‌شده در کنسول نمایش داده شدند ✅");
+  const handleSubmit = async () => {
+    for (const day of Object.keys(selectedTimes)) {
+      const newTimes = selectedTimes[day];
+      const oldTimes = originalTimes[day] || [];
+
+      const hasChanged =
+        newTimes.length !== oldTimes.length ||
+        newTimes.some((t) => !oldTimes.includes(t));
+
+      if (hasChanged) {
+        await addAvailableTimeMutation.mutateAsync({
+          companyId,
+          day,
+          times: newTimes,
+        });
+      }
+    }
+
   };
 
   const timeSlots = generateTimeSlots();
 
   return (
-     <div className="container">
-    <div className="time-page">
-      <div className="available-container">
-        <h2>تنظیم زمان‌های در دسترس</h2>
-        <div className="time-grid">
-          {WEEK_DAYS.map((day) => (
-            <div key={day.key} className="day-column">
-              <div className="day-header">{day.label}</div>
-              {timeSlots.map((time) => (
-                <button
-                  key={time}
-                  className={`time-slot ${
-                    selectedTimes[day.key]?.includes(time) ? "selected" : ""
-                  }`}
-                  onClick={() => handleSelect(day.key, time)}
-                >
-                  {time}
-                </button>
-              ))}
+    <div className="add-available-page">
+      <div className="container">
+        <div className="available-card">
+          <div className="available-header">
+            <div className="available-title">
+              <h2>{t("available-time.title")}</h2>
+              <p>{t("available-time.subtitle")}</p>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <button className="save-btn" onClick={handleSubmit}>
-          ذخیره زمان‌ها
-        </button>
+          <div className="time-grid">
+            {WEEK_DAY_KEYS.map((dayKey) => (
+              <div key={dayKey} className="day-column">
+                <div className="day-header">
+                  {t(`available-time.weekdays.${dayKey}`)}
+                </div>
+                {timeSlots.map((time) => (
+                  <button
+                    key={time}
+                    className={`time-slot ${
+                      selectedTimes[dayKey]?.includes(time) ? "selected" : ""
+                    }`}
+                    onClick={() => handleSelect(dayKey, time)}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="actions">
+            <button className="save-btn" onClick={handleSubmit}>
+              {t("available-time.save")}
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

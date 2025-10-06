@@ -2,5 +2,6 @@
   text-align: center;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background: var(--color-surface);
+  padding:  var(--space-4)
 }

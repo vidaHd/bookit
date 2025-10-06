@@ -1,20 +1,18 @@
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../slices/userSlice";
-import "./AddUserService";
-import { ButtonUI } from "../../ui-kit";
-import { buttonType, VariantType } from "../../ui-kit/button/button.type";
-import ResetPasswordModal from "../../components/ResetPassword/ResetPassword";
+import { ButtonUI, InputUI } from "../../ui-kit";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/LanguageContext";
-import { useApiMutation, useApiQuery } from "../../api/apiClient";
+import { useApiMutation } from "../../api/apiClient";
+import "./AddUserService.scss";
+import { buttonType, VariantType } from "../../ui-kit/button/button.type";
 
-const AddUserService = () => {
+const AddUserService: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { language } = useAppContext();
+
   const service = localStorage.getItem("service")
     ? JSON.parse(localStorage.getItem("service")!)
     : null;
@@ -23,8 +21,8 @@ const AddUserService = () => {
     duration: "",
     price: "",
   });
-  const [error, setError] = useState("");
-  const userId = JSON.parse(localStorage.getItem("user")!).id;
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const companyMutation = useApiMutation<
     any,
@@ -35,74 +33,151 @@ const AddUserService = () => {
     options: {
       onSuccess: (data) => {
         localStorage.setItem("userService", JSON.stringify(data));
-         navigate("/available-time");
+        navigate("/available-time");
       },
       onError: (error: any) => {
-        setError(error.message);
+        setErrors({ general: error.message });
       },
     },
   });
 
-  const handleAddDetailService = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData.price.trim()) {
+      newErrors.price = "قیمت سرویس الزامی است";
+    } else if (isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
+      newErrors.price = "قیمت باید یک عدد مثبت باشد";
+    }
+
+    if (!formData.duration.trim()) {
+      newErrors.duration = "مدت سرویس الزامی است";
+    } else if (
+      isNaN(Number(formData.duration)) ||
+      Number(formData.duration) <= 0
+    ) {
+      newErrors.duration = "مدت زمان باید یک عدد مثبت باشد";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleAddDetailService = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
     const finalData = {
       ...formData,
       serviceId: service ? service?._id : "",
       duration: formData.duration,
       price: formData.price,
     };
+
     companyMutation.mutate(finalData);
+    setIsLoading(false);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
   };
 
   return (
-    <div className="company-page">
-      <motion.div
-        className="company-card"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ButtonUI
-          variant={VariantType.ICON}
-          type={buttonType.BUTTON}
-          onClick={() => (window.location.href = "/")}
+    <div className="add-service-page">
+      <div className="container">
+        <motion.div
+          className="service-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          {language === "fa" ? "→" : "←"}
-        </ButtonUI>
-        <p className="subtitle">ساخت سرویس</p>
+          {/* Header */}
+          <div className="service-header">
+            <ButtonUI variant={VariantType.ICON} onClick={() => navigate(-1)}>
+              {t("add-new-company.back")}
+            </ButtonUI>
 
-        <motion.form
-          className="company-form"
-          onSubmit={handleAddDetailService}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          <span className="form-title">نام سرویس: {service?.title ?? ""}</span>
-          <input
-            type="text"
-            placeholder="قیمت سرویس"
-            value={formData.price}
-            onChange={(e) =>
-              setFormData({ ...formData, price: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="مدت سرویس"
-            value={formData.duration}
-            onChange={(e) =>
-              setFormData({ ...formData, duration: e.target.value })
-            }
-          />
+            <div className="service-title">
+              <h1>{t("add-user-service.title")}</h1>
+              <p>{t("add-user-service.subtitle")}</p>
+            </div>
+          </div>
 
-          {error && <span className="error">{error}</span>}
+          {/* Service Info */}
+          <div className="service-info">
+            <div className="service-badge">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+              <span>
+                {t("add-user-service.selected_service")}: {service?.title ?? t("add-user-service.service_name_placeholder")}
+              </span>
+            </div>
+          </div>
 
-          <ButtonUI variant={VariantType.SECONDARY} type={buttonType.SUBMIT}>
-            اظافه کردن جزئیات سرویس
-          </ButtonUI>
-        </motion.form>
-      </motion.div>
+          {/* Form */}
+          <motion.form
+            className="service-form"
+            onSubmit={handleAddDetailService}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <div className="form-grid">
+              <label>{t("add-user-service.price_label")}</label>
+              <input
+                placeholder={t("add-user-service.price_placeholder")}
+                value={formData.price}
+                onChange={(e) => handleInputChange("price", e.target.value)}
+              />
+              
+              <label>{t("add-user-service.duration_label")}</label>
+              <input
+                placeholder={t("add-user-service.duration_placeholder")}
+                value={formData.duration}
+                onChange={(e) => handleInputChange("duration", e.target.value)}
+              />
+            </div>
+
+            {errors.general && (
+              <div className="form-error">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="15" y1="9" x2="9" y2="15" />
+                  <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+                {errors.general}
+              </div>
+            )}
+
+            <div className="form-actions">
+              <ButtonUI variant={VariantType.ICON} onClick={() => navigate("/")}>
+                {t("add-user-service.cancel")}
+              </ButtonUI>
+
+              <ButtonUI variant={VariantType.PRIMARY} type={buttonType.SUBMIT}>
+                {t("add-user-service.submit")}
+              </ButtonUI>
+            </div>
+          </motion.form>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 const Header = () => {
   const name = useSelector((state: RootState) => state.user);
   console.log(name);
-  
+
   const { language, changeLanguage, theme, toggleTheme } = useAppContext();
   const { t } = useTranslation();
 

@@ -19,6 +19,7 @@ import AddedService from "./pages/AddedService/AddedService";
 import AddUserService from "./pages/AddUserService/AddUserService";
 import AddAvailableTime from "./pages/AddAvailableTime/AddAvailableTime";
 import "react-datepicker/dist/react-datepicker.css";
+import { Dashboard } from "./pages";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -41,6 +42,7 @@ root.render(
                 <Route path="/add-new-service" element={<AddedService />} />
                 <Route path="/add-user-service" element={<AddUserService />} />
                 <Route path="/available-time" element={<AddAvailableTime />} />
+                <Route path="/Dashboard" element={<Dashboard />} />
               </Route>
             </Routes>
           </BrowserRouter>

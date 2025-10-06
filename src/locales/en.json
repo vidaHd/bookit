@@ -32,9 +32,7 @@
     "verification_code": "Verification Code",
     "verify": "Verify"
   },
-  "footer": {
-    "all_rights_reserved": "All rights reserved."
-  },
+  "footer": { "all_rights_reserved": "All rights reserved." },
   "login": {
     "welcomeBack": "Welcome Back",
     "subtitle": "Login to your professional account",
@@ -44,10 +42,8 @@
     "login": "Login",
     "forgotPassword": "Forgot your password?",
     "register": "Register",
-    "mobileNumber":"Mobile Number",
-    "errors": {
-      "general": "Something went wrong!"
-    }
+    "mobileNumber": "Mobile Number",
+    "errors": { "general": "Something went wrong!" }
   },
   "register": {
     "title": "Register",
@@ -56,5 +52,123 @@
     "mobileNumber": "Mobile Number",
     "password": "Password",
     "submit": "Register"
+  },
+  "add-new-company": {
+    "back": "Back",
+    "create_company_account": "Create Company Account",
+    "enter_company_info": "Enter your company and job information",
+    "company_name_placeholder": "Enter your company name",
+    "job_label": "Job Type",
+    "select_job": "Select a job",
+    "loading_jobs": "Loading jobs...",
+    "company_name_required": "Company name is required",
+    "company_name_min_length": "Company name must be at least 2 characters",
+    "job_required": "Job selection is required",
+    "cancel": "Cancel",
+    "create": "Create Company Account"
+  },
+  "added-service": {
+    "title": "Choose or Create Services",
+    "subtitle": "Select existing services or create a new one",
+    "existing_services": "Existing services",
+    "search_placeholder": "Search services...",
+    "no_services": "No services available",
+    "selected_count": "Selected: {{count}}",
+    "create_new_service": "Create new service",
+    "service_name_placeholder": "Service name",
+    "add_service": "Add service",
+    "next_step": "Go to next step"
+  },
+  "add-user-service": {
+    "title": "Add Service Details",
+    "subtitle": "Enter complete information for your service",
+    "selected_service": "Selected service",
+    "service_name_placeholder": "Service name",
+    "price_label": "Service price",
+    "price_placeholder": "e.g. 150000",
+    "duration_label": "Service duration (minutes)",
+    "duration_placeholder": "e.g. 60",
+    "cancel": "Cancel",
+    "submit": "Add service details"
+  },
+  "available-time": {
+    "title": "Set Available Times",
+    "subtitle": "Choose the days and hours you can be booked",
+    "save": "Save times",
+    "weekdays": {
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday"
+    }
+  },
+  "dashboard": {
+    "title": "Management Dashboard",
+    "subtitle": "Manage your business here",
+    "tabs": {
+      "overview": "Overview",
+      "schedule": "Working Hours",
+      "services": "Services",
+      "company": "Company",
+      "bookings": "Bookings"
+    },
+    "common": { "save": "Save", "cancel": "Cancel", "edit": "Edit" },
+    "overview": {
+      "today_bookings": "Today's bookings",
+      "active_services": "Active services",
+      "working_hours": "Working hours",
+      "no_hours": "No working hours set"
+    },
+    "schedule": {
+      "title": "Manage Working Hours",
+      "subtitle": "Configure your working availability",
+      "save": "Save settings"
+    },
+    "services": {
+      "title": "Manage Services",
+      "subtitle": "Maintain your services",
+      "empty": "No services",
+      "price": "Price",
+      "duration": "Duration",
+      "edit_title": "Edit Service",
+      "name": "Service name",
+      "name_ph": "Enter service name",
+      "price_ph": "Enter price",
+      "duration_ph": "Enter duration",
+      "sample_a": "Haircut",
+      "sample_b": "Hair coloring",
+      "sample_c": "Beard trim",
+      "add_new":" Add new service"
+    },
+    "company": {
+      "title": "Company Information",
+      "subtitle": "Edit your business details",
+      "name": "Company name",
+      "name_ph": "Enter company name",
+      "phone": "Phone",
+      "phone_ph": "Phone number",
+      "address": "Address",
+      "address_ph": "Full address",
+      "email": "Email",
+      "email_ph": "Company email",
+      "description": "Description",
+      "description_ph": "Company description"
+    },
+    "bookings": {
+      "title": "View bookings",
+      "subtitle": "Manage all bookings",
+      "customer": "Customer",
+      "service": "Service",
+      "date": "Date",
+      "time": "Time",
+      "price": "Price",
+      "status": "Status",
+      "status_pending": "Pending",
+      "status_confirmed": "Confirmed",
+      "status_completed": "Completed"
+    }
   }
 }

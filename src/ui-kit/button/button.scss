@@ -15,22 +15,28 @@
     outline-offset: 2px;
   }
 
+  &:disabled {
+    background-color: var(--neutral-300);
+    color: var(--neutral-50);
+    cursor: not-allowed;
+    transform: none !important;
+  }
   &-primary {
-    background-color: var(--bg-btn);
-    color: var(--text-light);
+    background-color: var(--primary-500);
+    color: var(--secondary-50);
 
     &:hover {
-      background-color: var(--primary-light);
+      background-color: var(--primary-400);
       transform: translateY(-2px);
     }
   }
 
   &-secondary {
-    background-color: var(--primary-light);
-    color: var(--text-light);
+    background-color: var(--secondary-400);
+    color: var(--secondary-50);
 
     &:hover {
-      background-color: var(--primary-dark);
+      background-color: var(--secondary-400);
       transform: translateY(-2px);
     }
   }
@@ -49,13 +55,10 @@
     svg {
       width: 24px;
       height: 24px;
-      fill: var(--text-color);
       transition:
-        fill 0.2s ease-in-out,
         transform 0.2s ease-in-out;
 
       &:hover {
-        fill: var(--primary-light);
         transform: scale(1.1);
       }
     }
