@@ -21,28 +21,30 @@
     text-align: center;
     width: 100%;
     max-width: 400px;
-.services-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-
-  .service-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-
-    input[type="checkbox"] {
-      transform: scale(1.2);
-      accent-color: #007bff;
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    span {
-      font-size: 15px;
+    .service-item {
+      padding: 8px 16px;
+      background-color: var(--text-color); 
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      user-select: none;
+      color: white;
     }
-  }
-}
+
+    .service-item.selected {
+      background-color: var(--primary-light); 
+    }
+
+    .service-item:hover {
+      background-color: var(--primary-dark);
+      color: black;
+    }
 
     h2 {
       margin-bottom: 0.5rem;

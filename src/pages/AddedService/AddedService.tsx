@@ -19,7 +19,6 @@ const AddedService = () => {
   const userId = JSON.parse(localStorage.getItem("user")!).id;
   const company = localStorage.getItem("company");
 
-  // لیست سرویس‌ها از بک‌اند
   const services = useApiQuery({
     key: "all-service",
     url: `http://localhost:5000/all-service/${
@@ -27,7 +26,6 @@ const AddedService = () => {
     }`,
   }).data;
 
-  // state برای نگه‌داشتن سرویس‌های انتخاب شده
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   const handleCheckboxChange = (id: string) => {
@@ -52,7 +50,6 @@ const AddedService = () => {
     options: {
       onSuccess: (data) => {
         localStorage.setItem("service", JSON.stringify(data));
-        navigate("/add-user-service");
       },
       onError: (error: any) => {
         setError(error.message);
@@ -89,23 +86,26 @@ const AddedService = () => {
 
         <h3 className="subtitle">سرویس‌های موجود</h3>
 
-        {Array.isArray(services) && services.length > 0 ? (
-          <div className="services-list">
-            {services.map((item: any) => (
-              <label key={item._id} className="service-item">
-                <input
-                  type="checkbox"
-                  checked={selectedServices.includes(item._id)}
-                  onChange={() => handleCheckboxChange(item._id)}
-                />
-                <span>{item.title}</span>
-              </label>
-            ))}
-          </div>
-        ) : (
-          <p>هیچ سرویسی یافت نشد</p>
-        )}
-
+        <div className="services-list">
+          {Array.isArray(services) && services.length > 0 ? (
+            <div className="services-list">
+              {services.map((item: any) => {
+                const isSelected = selectedServices.includes(item._id);
+                return (
+                  <div
+                    key={item._id}
+                    className={`service-item ${isSelected ? "selected" : ""}`}
+                    onClick={() => handleCheckboxChange(item._id)}
+                  >
+                    <span>{item.title}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p>هیچ سرویسی وجود ندارد</p>
+          )}
+        </div>
         <h3 className="subtitle">ساخت سرویس جدید</h3>
 
         <motion.form
@@ -126,9 +126,19 @@ const AddedService = () => {
 
           {error && <span className="error">{error}</span>}
 
-          <ButtonUI variant={VariantType.SECONDARY} type={buttonType.SUBMIT}>
-            ایجاد سرویس
-          </ButtonUI>
+          <div>
+            {" "}
+            <ButtonUI variant={VariantType.SECONDARY} type={buttonType.SUBMIT}>
+              ایجاد سرویس
+            </ButtonUI>
+            <ButtonUI
+              variant={VariantType.PRIMARY}
+              type={buttonType.SUBMIT}
+              onClick={() => navigate("/add-user-service")}
+            >
+              برو مرحله بعدی{" "}
+            </ButtonUI>
+          </div>
         </motion.form>
       </motion.div>
     </div>
