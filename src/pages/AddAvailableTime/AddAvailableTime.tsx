@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./AddAvailableTime.scss";
-import { useApiMutation, useApiQuery } from "../../api/apiClient";
+import { useApiMutation } from "../../api/apiClient";
 import { useNavigate } from "react-router-dom";
 
 const WEEK_DAY_KEYS = [
@@ -31,20 +31,6 @@ const AvailableTimeForm: React.FC = () => {
   const companyId = company ? JSON.parse(company)._id : "";
   const navigate = useNavigate();
 
-  // const { data: fetchedTimes, refetch } = useApiQuery({
-  //   key: ["availableTime", companyId],
-  //   url: `http://localhost:5000/availableTime/${companyId}`,
-  //   method: "GET",
-  // });
-
-  // useEffect(() => {
-    // if (fetchedTimes) {
-      // setSelectedTimes(fetchedTimes);
-      // setOriginalTimes(fetchedTimes);
-    // }
-  // }, [fetchedTimes]);
-
-  // --- Mutation to add/update available times ---
   const addAvailableTimeMutation = useApiMutation<
     any,
     { companyId: string; day: string; times: string[] }
@@ -53,14 +39,41 @@ const AvailableTimeForm: React.FC = () => {
     method: "POST",
     options: {
       onSuccess: () => {
-        // refetch();
-        navigate('/dashboard');
+        navigate("/dashboard");
       },
       onError: (error) => {
         console.error("Error:", error);
       },
     },
   });
+
+  // --- گرفتن داده‌ها از بک‌اند برای هر روز ---
+  useEffect(() => {
+    const fetchTimes = async () => {
+      try {
+        const data: { [day: string]: string[] } = {};
+
+        for (const day of WEEK_DAY_KEYS) {
+          const res = await fetch(`http://localhost:5000/time/${companyId}/${day}`);
+          if (!res.ok) {
+            // اگر رکوردی برای اون روز نباشه، رد نمی‌کنیم — فقط ادامه می‌دیم
+            data[day] = [];
+            continue;
+          }
+
+          const json = await res.json();
+          data[day] = json?.times || [];
+        }
+
+        setSelectedTimes(data);
+        setOriginalTimes(data);
+      } catch (err) {
+        console.error("Error fetching times:", err);
+      }
+    };
+
+    if (companyId) fetchTimes();
+  }, [companyId]);
 
   const handleSelect = (day: string, time: string) => {
     setSelectedTimes((prev) => {
@@ -92,7 +105,6 @@ const AvailableTimeForm: React.FC = () => {
         });
       }
     }
-
   };
 
   const timeSlots = generateTimeSlots();

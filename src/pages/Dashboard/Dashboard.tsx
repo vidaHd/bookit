@@ -12,7 +12,7 @@ type TabType = "overview" | "schedule" | "services" | "company" | "bookings";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<TabType>("overview");
+  const [activeTab, setActiveTab] = useState<TabType>("services");
 
   const tabs = useMemo(
     () => [

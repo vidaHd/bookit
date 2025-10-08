@@ -77,7 +77,8 @@
     "create_new_service": "Create new service",
     "service_name_placeholder": "Service name",
     "add_service": "Add service",
-    "next_step": "Go to next step"
+    "next_step": "Go to next step",
+    "cancel_and_close":" save and close and continue"
   },
   "add-user-service": {
     "title": "Add Service Details",

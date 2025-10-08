@@ -84,7 +84,8 @@
     "create_new_service": "ساخت سرویس جدید",
     "service_name_placeholder": "نام سرویس",
     "add_service": "ایجاد سرویس",
-    "next_step": "برو مرحله بعد"
+    "next_step": "برو مرحله بعد",
+    "cancel_and_close":"بسستن و ادامه"
   },
   "add-user-service": {
     "title": "افزودن جزئیات سرویس",
